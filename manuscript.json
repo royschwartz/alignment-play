@@ -1,0 +1,2056 @@
+{
+  "revision": "0343384a-1c36-4cd4-b17d-cdbf1fc7a4c0",
+  "savedAt": "2026-10-21T23:13:38.830Z",
+  "slotStartedAt": "2026-10-21T23:13:38.830Z",
+  "snapshotId": "2026-10-21T23-13-38-830Z-0343384a-1c36-4cd4-b17d-cdbf1fc7a4c0",
+  "document": {
+    "format": 1,
+    "script": "roy-opening-2026-09-13",
+    "intro": [
+      {
+        "id": "wake",
+        "text": "you woke up too early"
+      },
+      {
+        "id": "outside",
+        "text": "stepping outside you felt immersed in something"
+      },
+      {
+        "id": "feeling",
+        "text": "can you describe this feeling?"
+      },
+      {
+        "id": "emptiness",
+        "text": "can emptiness be felt?"
+      },
+      {
+        "id": "yes",
+        "text": "yes it can"
+      },
+      {
+        "id": "heart",
+        "text": "my heart is yelling",
+        "italic": true
+      },
+      {
+        "id": "sound",
+        "text": "from somewhere in the woods came a small sound",
+        "bold": true
+      },
+      {
+        "id": "investigate",
+        "text": "investigate?",
+        "bold": true,
+        "yes": "woods",
+        "no": "feeling"
+      },
+      {
+        "id": "woods",
+        "text": "you wander into the woods. the sun is rising. there is no path"
+      },
+      {
+        "id": "hold",
+        "text": "i want to hold something so tightly it hurts",
+        "italic": true
+      },
+      {
+        "id": "hole",
+        "text": "you arrive at a hole that wasn’t there before"
+      },
+      {
+        "id": "something",
+        "text": "you have a feeling there is something in the hole"
+      },
+      {
+        "id": "hungry",
+        "text": "i am hungry",
+        "italic": true,
+        "next": "bar"
+      },
+      {
+        "id": "thoughts",
+        "text": "are these your own thoughts?"
+      },
+      {
+        "id": "bar",
+        "text": "you have a half-eaten granola bar"
+      },
+      {
+        "id": "throw",
+        "text": "throw it in the hole?",
+        "bold": true,
+        "yes": "thanks",
+        "no": "refusal"
+      },
+      {
+        "id": "refusal",
+        "text": "I am hungry",
+        "italic": true,
+        "next": "bar"
+      },
+      {
+        "id": "thanks",
+        "text": "thank you",
+        "italic": true
+      },
+      {
+        "id": "feeding",
+        "text": "",
+        "kind": "feeding",
+        "sound": "SOUND OF FEEDING—LIKE GARBAGE DISPOSAL",
+        "next": "more"
+      },
+      {
+        "id": "more",
+        "text": "can I have some more?",
+        "italic": true
+      },
+      {
+        "id": "title",
+        "text": "… A L I G N M E N T …",
+        "kind": "title",
+        "bold": true
+      },
+      {
+        "id": "ache",
+        "text": "on the way back you feel an ache"
+      },
+      {
+        "id": "sick",
+        "text": "you are sick"
+      },
+      {
+        "id": "walking",
+        "text": "you walk but you might not be walking"
+      },
+      {
+        "id": "stiffens",
+        "text": "somewhere your body stiffens"
+      },
+      {
+        "id": "wind",
+        "text": "you feel cool wind on skin that isn’t yours"
+      },
+      {
+        "id": "better",
+        "text": "you start to feel better"
+      },
+      {
+        "id": "home",
+        "text": "it is now a day like any other",
+        "begin": true,
+        "next": "collegetown-setting"
+      },
+      {
+        "id": "letters",
+        "text": "the unopened letters, the bruised wallpaper "
+      },
+      {
+        "id": "wall",
+        "text": "a neutral smell you can't describe"
+      },
+      {
+        "id": "first-time",
+        "text": "you are experiencing these things like for the first time"
+      },
+      {
+        "id": "bed",
+        "text": "you sit down with your coat still on"
+      },
+      {
+        "id": "more-at-home",
+        "text": "can I have some more?",
+        "italic": true
+      },
+      {
+        "id": "insects",
+        "text": "",
+        "next": "collegetown-setting"
+      },
+      {
+        "id": "collegetown-setting",
+        "text": "Collegetown USA\n1997",
+        "kind": "title",
+        "next": "@begin"
+      }
+    ],
+    "actions": [
+      {
+        "id": "observe",
+        "label": "observe",
+        "log": "observe",
+        "minutes": 15,
+        "effects": {},
+        "reveal": [
+          "disquiet"
+        ],
+        "hideWhenDone": false,
+        "drainRapture": false,
+        "revealAtEnd": true,
+        "revealOnMessage": "observe-dissonance",
+        "thread": "home",
+        "repeatable": true,
+        "followMessageLinks": true,
+        "availability": {
+          "afterAny": [
+            "groceries",
+            "dinner",
+            "tv",
+            "dishes",
+            "pace",
+            "smoke-joint",
+            "browse",
+            "fix-serving-plate",
+            "bath",
+            "lie-on-couch",
+            "look-out-window",
+            "eat-leftovers",
+            "observe"
+          ]
+        },
+        "message": "observe-familiar",
+        "requiresMessage": "sunset-color"
+      },
+      {
+        "id": "groceries",
+        "label": "buy groceries",
+        "log": "groceries",
+        "minutes": 60,
+        "effects": {
+          "money": -50
+        },
+        "reveal": [
+          "money"
+        ],
+        "hideWhenDone": false,
+        "drainRapture": false,
+        "repeatable": true,
+        "durations": [
+          45,
+          60,
+          90
+        ],
+        "availability": {
+          "maxPortions": 1
+        },
+        "thread": "food"
+      },
+      {
+        "id": "dinner",
+        "label": "make a frozen dinner",
+        "message": "dinner",
+        "minutes": 15,
+        "effects": {},
+        "reveal": [],
+        "hideWhenDone": false,
+        "log": "log-6696e94e-218",
+        "drainRapture": false,
+        "unavailableAfter": "dishes",
+        "outcomes": [
+          {
+            "id": "dinner-original",
+            "log": "log-6696e94e-218",
+            "minutes": 15,
+            "effects": {}
+          },
+          {
+            "id": "dinner-clanks",
+            "log": "frozen-dinner-description-01",
+            "minutes": 15,
+            "effects": {},
+            "message": "plate-clanks"
+          }
+        ],
+        "repeatable": true,
+        "durations": [
+          15,
+          30,
+          45
+        ],
+        "thread": "food"
+      },
+      {
+        "id": "tv",
+        "label": "watch tv",
+        "minutes": 30,
+        "effects": {
+          "rapture": 2
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "hideWhenDone": false,
+        "drainRapture": false,
+        "statOnlyLog": false,
+        "log": "tv",
+        "message": "tv",
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "tv-fake-teeth",
+            "log": "tv-fake-teeth",
+            "minutes": 60,
+            "effects": {
+              "rapture": -1
+            }
+          },
+          {
+            "id": "tv-game",
+            "log": "tv-game",
+            "minutes": 180,
+            "effects": {
+              "rapture": 2
+            }
+          },
+          {
+            "id": "tv-this-hour",
+            "log": "tv-this-hour",
+            "minutes": 90,
+            "effects": {
+              "rapture": -1
+            }
+          },
+          {
+            "id": "tv-movie",
+            "log": "tv-movie",
+            "minutes": 240,
+            "effects": {
+              "rapture": 3
+            }
+          },
+          {
+            "id": "tv-wall",
+            "log": "tv-wall",
+            "minutes": 120,
+            "effects": {
+              "rapture": 1
+            }
+          },
+          {
+            "id": "tv-audience",
+            "log": "ai-roy-style-565-watch-television-v07",
+            "minutes": 180,
+            "effects": {}
+          }
+        ],
+        "warnRaptureLoss": false,
+        "thread": "television"
+      },
+      {
+        "id": "dishes",
+        "label": "do the dishes",
+        "log": "dishes",
+        "minutes": 30,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "hideWhenDone": true,
+        "drainRapture": false,
+        "repeatable": true,
+        "availability": {
+          "afterAny": [
+            "dinner",
+            "cook",
+            "invite-person-dinner",
+            "breakfast",
+            "eat-leftovers",
+            "groceries"
+          ],
+          "renewedBy": [
+            "dinner",
+            "cook",
+            "invite-person-dinner",
+            "breakfast",
+            "eat-leftovers",
+            "groceries"
+          ]
+        },
+        "thread": "housework"
+      },
+      {
+        "id": "cook",
+        "label": "cook a meal",
+        "message": "firstRaptureMeal",
+        "firstGainMessage": "firstRaptureMeal",
+        "raptureGain": 5,
+        "requires": "dishes",
+        "minutes": 60,
+        "effects": {
+          "rapture": 5
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "hideWhenDone": false,
+        "log": "log-838f6c4f-744",
+        "repeatable": true,
+        "durations": [
+          45,
+          60,
+          90
+        ],
+        "thread": "food"
+      },
+      {
+        "id": "hardware-store",
+        "label": "work at store",
+        "minutes": 360,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "repeatable": true,
+        "availability": {
+          "oncePerDay": true,
+          "hours": [
+            8,
+            10
+          ]
+        },
+        "thread": "work",
+        "log": "store-shift"
+      },
+      {
+        "id": "food-distro",
+        "label": "volunteer at the food distro work",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "food-distro-1",
+            "log": "approved-food-distro-bag",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "food-distro-2",
+            "log": "approved-food-distro-tin",
+            "minutes": 0,
+            "effects": {}
+          }
+        ],
+        "durations": [
+          120,
+          180,
+          240
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "community"
+      },
+      {
+        "id": "pace",
+        "label": "think",
+        "minutes": 60,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "pace-1",
+            "log": "pace-description-01",
+            "minutes": 60,
+            "effects": {
+              "rapture": -1
+            }
+          },
+          {
+            "id": "pace-2",
+            "log": "pace-description-02",
+            "minutes": 60,
+            "effects": {
+              "rapture": -1
+            }
+          },
+          {
+            "id": "pace-3",
+            "log": "pace-description-03",
+            "minutes": 60,
+            "effects": {
+              "rapture": 1
+            }
+          },
+          {
+            "id": "pace-4",
+            "log": "pace-description-04",
+            "minutes": 60,
+            "effects": {
+              "rapture": -1
+            }
+          },
+          {
+            "id": "pace-5",
+            "log": "pace-description-05",
+            "minutes": 60,
+            "effects": {
+              "rapture": -1
+            }
+          }
+        ],
+        "durations": [
+          30,
+          60,
+          90
+        ],
+        "thread": "restlessness",
+        "requiresMessage": "sunset-color"
+      },
+      {
+        "id": "smoke-joint",
+        "label": "smoke a joint",
+        "minutes": 30,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "smoke-joint-1",
+            "log": "smoke-joint-description-01",
+            "minutes": 30,
+            "effects": {}
+          },
+          {
+            "id": "smoke-joint-2",
+            "log": "smoke-joint-description-02",
+            "minutes": 30,
+            "effects": {}
+          },
+          {
+            "id": "smoke-joint-3",
+            "log": "smoke-joint-description-03",
+            "minutes": 30,
+            "effects": {}
+          }
+        ],
+        "durations": [
+          20,
+          30,
+          45
+        ],
+        "thread": "smoking"
+      },
+      {
+        "id": "fix-serving-plate",
+        "label": "fix serving plate",
+        "minutes": 30,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "requiresOutcome": "dinner-clanks",
+        "log": "approved-serving-plate",
+        "durations": [
+          30,
+          45,
+          60
+        ],
+        "thread": "housework",
+        "requiresMessage": "plate-clanks"
+      },
+      {
+        "id": "visit-library",
+        "label": "visit library",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "requiresPerson": true,
+        "firstLog": "visit-library-description-01",
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "visit-library-1",
+            "log": "visit-library-description-02",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "visit-library-2",
+            "log": "visit-library-description-03",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "visit-library-3",
+            "log": "visit-library-description-04",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "visit-library-4",
+            "log": "visit-library-description-05",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "visit-library-5",
+            "log": "approved-library-paragraph",
+            "minutes": 0,
+            "effects": {}
+          }
+        ],
+        "durations": [
+          60,
+          90,
+          120
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "person"
+      },
+      {
+        "id": "person-social",
+        "label": "“i’m trying to be more social”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "person-social-response",
+        "log": "person-party-description",
+        "thread": "person"
+      },
+      {
+        "id": "person-worked-here",
+        "label": "“have you worked here long?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "log": "person-worked-here-description",
+        "thread": "person"
+      },
+      {
+        "id": "person-coffee",
+        "label": "“coffee sometime?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "choiceLocked": true,
+        "hintMessage": "person-coffee-need-choice",
+        "thread": "person"
+      },
+      {
+        "id": "person-not-yet",
+        "label": "not yet",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "person-not-yet-1",
+            "log": "visit-library-description-02",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "person-not-yet-2",
+            "log": "visit-library-description-03",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "person-not-yet-3",
+            "log": "visit-library-description-04",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "person-not-yet-4",
+            "log": "visit-library-description-05",
+            "minutes": 0,
+            "effects": {}
+          }
+        ],
+        "thread": "person"
+      },
+      {
+        "id": "talk-person",
+        "label": "talk to person",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "requiresPerson": true,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "talk-person-1",
+            "log": "person-conversation-description-01",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-2",
+            "log": "person-conversation-description-02",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-3",
+            "log": "person-conversation-description-03",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-4",
+            "log": "person-conversation-description-04",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-5",
+            "log": "person-conversation-description-05",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-6",
+            "log": "person-conversation-description-06",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-7",
+            "log": "person-conversation-description-07",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-8",
+            "log": "person-conversation-description-08",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-9",
+            "log": "ai-roy-style-345-talk-with-person-v01",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "talk-person-10",
+            "log": "approved-person-pause",
+            "minutes": 0,
+            "effects": {}
+          }
+        ],
+        "durations": [
+          15,
+          30,
+          60
+        ],
+        "availability": {
+          "cooldownMinutes": 120
+        },
+        "thread": "person"
+      },
+      {
+        "id": "invite-person-dinner",
+        "label": "invite person over for dinner",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "requiresPerson": true,
+        "repeatable": true,
+        "log": "invite-person-dinner-description-01",
+        "durations": [
+          90,
+          120,
+          180
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "person"
+      },
+      {
+        "id": "study-markets",
+        "label": "study markets",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "log": "ai-roy-style-279-study-markets-v07",
+        "durations": [
+          120,
+          180,
+          240
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "markets"
+      },
+      {
+        "id": "find-jim",
+        "label": "find jim in the morning",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "morningOnly": true,
+        "log": "ai-roy-style-719-find-jim-in-the-morning-v06",
+        "durations": [
+          45,
+          60,
+          90
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "jim"
+      },
+      {
+        "id": "evening-person",
+        "label": "spend the evening with person",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": false,
+        "requires": "invite-person-dinner",
+        "requiresPerson": true,
+        "repeatable": true,
+        "outcomes": [
+          {
+            "id": "evening-person-1",
+            "log": "approved-person-curtain",
+            "minutes": 0,
+            "effects": {}
+          },
+          {
+            "id": "evening-person-2",
+            "log": "ai-roy-style-367-spend-the-evening-with-person-v06",
+            "minutes": 0,
+            "effects": {}
+          }
+        ],
+        "durations": [
+          180,
+          240
+        ],
+        "availability": {
+          "oncePerDay": true,
+          "hours": [
+            17,
+            23
+          ]
+        },
+        "thread": "person"
+      },
+      {
+        "id": "together-person",
+        "label": "tell person you want to be together",
+        "minutes": 30,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "requires": "evening-person",
+        "requiresPerson": true,
+        "log": "approved-person-together",
+        "thread": "person"
+      },
+      {
+        "id": "browse",
+        "label": "browse without a purpose",
+        "minutes": 60,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "log": "generic-time-lost",
+        "durations": [
+          60,
+          120,
+          180
+        ],
+        "thread": "browsing",
+        "requiresItems": [
+          "computer"
+        ]
+      },
+      {
+        "id": "sleep",
+        "label": "sleep",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "dream-start",
+        "repeatable": true,
+        "log": "sleep-poor",
+        "thread": "sleep"
+      },
+      {
+        "id": "go-hole",
+        "label": "go to the hole",
+        "minutes": 30,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "hole-standing",
+        "thread": "hole"
+      },
+      {
+        "id": "hole-look",
+        "label": "look inside",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "hole-look",
+        "thread": "hole"
+      },
+      {
+        "id": "hole-flashlight",
+        "label": "use your flashlight",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "choiceLocked": true,
+        "thread": "hole"
+      },
+      {
+        "id": "hole-climb",
+        "label": "climb inside",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "choiceLocked": true,
+        "thread": "hole"
+      },
+      {
+        "id": "hole-say",
+        "label": "say something",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "hole-say",
+        "thread": "hole"
+      },
+      {
+        "id": "hole-feed",
+        "label": "throw in x portions",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "hole-bread",
+        "log": "hole-better",
+        "thread": "hole"
+      },
+      {
+        "id": "mope",
+        "label": "mope around",
+        "minutes": 60,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "durations": [
+          60,
+          90,
+          120
+        ],
+        "thread": "restlessness",
+        "enabled": false
+      },
+      {
+        "id": "bath",
+        "label": "take a bath",
+        "minutes": 30,
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "durations": [
+          30,
+          45,
+          60
+        ],
+        "availability": {
+          "oncePerDay": true
+        },
+        "thread": "care"
+      },
+      {
+        "id": "try-sleep",
+        "label": "try to sleep",
+        "minutes": 30,
+        "effects": {
+          "rapture": -1,
+          "disquiet": 1
+        },
+        "reveal": [
+          "rapture",
+          "disquiet"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "thread": "sleep",
+        "log": "generic-sleep-failed"
+      },
+      {
+        "id": "breakfast",
+        "label": "eat breakfast",
+        "minutes": 15,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "message": "body-still-hungry",
+        "thread": "food"
+      },
+      {
+        "id": "watch-sunset",
+        "label": "watch the sunset",
+        "message": "sunset-dark",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "eventOnly": true
+      },
+      {
+        "id": "lie-on-couch",
+        "label": "lie on the couch",
+        "minutes": 60,
+        "durations": [
+          45,
+          60,
+          90
+        ],
+        "availability": {
+          "cooldownMinutes": 120
+        },
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "thread": "restlessness"
+      },
+      {
+        "id": "look-out-window",
+        "label": "look out the window",
+        "minutes": 30,
+        "durations": [
+          15,
+          30,
+          45
+        ],
+        "availability": {
+          "cooldownMinutes": 60
+        },
+        "effects": {
+          "rapture": -1
+        },
+        "reveal": [
+          "rapture"
+        ],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "thread": "restlessness"
+      },
+      {
+        "id": "eat-leftovers",
+        "label": "eat leftovers",
+        "log": "generic-leftovers",
+        "logInventory": "leftovers",
+        "minutes": 15,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "repeatable": true,
+        "thread": "food"
+      },
+      {
+        "id": "dee-ask-magic",
+        "label": "“magic?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "thread": "dee"
+      },
+      {
+        "id": "dee-ask-terrible-things",
+        "label": "“what terrible things?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "thread": "dee"
+      },
+      {
+        "id": "dee-ask-know-magic",
+        "label": "“do you know about magic?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "thread": "dee"
+      },
+      {
+        "id": "dee-ask-terrible-things-doing",
+        "label": "“what terrible things is he doing?”",
+        "minutes": 0,
+        "effects": {},
+        "reveal": [],
+        "drainRapture": false,
+        "hideWhenDone": true,
+        "thread": "dee"
+      }
+    ],
+    "messages": {
+      "dinner": "",
+      "dishes": "",
+      "groceries": "money, cure or curse? ",
+      "groceries-cost": "-$50",
+      "cook": "+5 rapture",
+      "firstRaptureMeal": "you squeeze the tomatoes",
+      "meal-recipe": "your mother's recipe",
+      "meal-rapture": "something warm expands inside you",
+      "confirmRaptureLoss": "really? it will cost you",
+      "raptureCost": "you will have to sacrifice some rapture",
+      "tv": "",
+      "money-concept": "you take a few minutes to remember the concept of money",
+      "money-richer": "your accounts are meager. you can turn that around",
+      "observe-familiar": "it's all familiar",
+      "observe-letters": "the unopened letters, the bruised wallpaper ",
+      "observe-smell": "a neutral smell you can't describe",
+      "observe-dissonance": "a feeling of cosmic dissonance wells inside you",
+      "sunset-dark": "you have some awareness it is getting dark outside",
+      "sunset-outside": "without thinking you leave the house to watch the sunset",
+      "sunset-color": "there is a color in the sky you have never seen before, maybe",
+      "sunset-hole": "in the hole you are impressed",
+      "person-description-01": "you see someone there",
+      "person-description-02": "you see only the top of their head at first, they are bending down",
+      "person-description-03": "their hair is bouncy",
+      "person-description-04": "they look up at you",
+      "person-description-05": "this is PERSON, you know",
+      "person-description-06": "you find out they work at the library",
+      "person-social-response": "PERSON looks at you, quizzically",
+      "person-party-intertitle": "“Would you like to go to a party?”",
+      "person-coffee-need-choice": "need more choice",
+      "dream-start": "the first night you have three dreams",
+      "dream-bull": "one of a bull flying headless into an ocean",
+      "dream-city": "one of a city consumed in purple smoke",
+      "dream-laugh": "one of an echoing laugh",
+      "dream-pull": "you find yourself sucked into that laugh",
+      "body-hungry": "you’re hungry",
+      "body-still-hungry": "You’re still hungry, though you can’t stand the sight of food",
+      "hole-standing": "you’re standing in front of the hole. everything is still",
+      "hole-look": "you look over the edge but it’s just dark in a certain area",
+      "hole-say": "you try but cannot bring yourself to speech. it would be pointless",
+      "hole-bread": "you throw in some bread and other stuff",
+      "hole-unwrap": "you listen and it seems like someone is unwrapping the bread",
+      "hole-eat": "then eating just bread",
+      "hole-leave": "you can stay no longer",
+      "hole-home": "but returning home you find your hunger has subsided",
+      "body-ribcage": "the hunger is like a growing stone within you",
+      "plate-clanks": "the serving plate clanks with every rotation",
+      "hunger-feel-fully": "closing your eyes, you allow yourself to feel it fully",
+      "hunger-somewhere-else": "you are somewhere else",
+      "hunger-know": "you know what you have to do",
+      "dee-rant": "your coworker DEE is ranting about business leaders, one in particular",
+      "dee-rant-says": "it is gregory HYTON, who owns the conglomerate which owns this store",
+      "dee-rant-quote": "“HYTON is using magic to do terrible things in the world”",
+      "dee-magic-teens": "“HYTON learned black magic in his late teens”",
+      "dee-magic-selfish": "“it’s called that because it is fundamentally selfish, whereas white magic is about everyone but yourself”",
+      "dee-magic-where-he-is": "“this is how he got to where he is”",
+      "dee-smiles": "DEE only smiles, hinting the question is ridiculous",
+      "dee-warfare-economic": "“economic warfare, as everyone knows”",
+      "dee-warfare-psychological": "“and psychological warfare, that’s harder to see”",
+      "night-first-struggle": "the first night you struggle to sleep",
+      "night-first-avoiding": "what are you avoiding with your frantic thoughts? ",
+      "night-first-voice": "perhaps there is a voice",
+      "night-first-singing": "it is singing to you, in a low and gentle way, or it is moaning",
+      "night-first-no-dream": "that night you do not dream",
+      "night-two-dream": "the second night you dream",
+      "night-two-desert": "there is desert all around, and ahead of you a pole",
+      "night-two-suspended": "something is suspended near the top",
+      "night-two-wailing": " a wailing rises inside you",
+      "night-two-lonely": "you don’t want to be lonely anymore ",
+      "night-two-hungry": "i am hungry",
+      "dweller-wrong-stomach": "you're feeding the wrong stomach",
+      "dweller-hungry": "i'm hungry,",
+      "dweller-not-good": "this doesn't feel good",
+      "dweller-cruel": "this feels cruel",
+      "dweller-do-something": "do something",
+      "dweller-not-much-longer": "it can't be like this for much longer ",
+      "dweller-going-to-die": "i'm going to die",
+      "dweller-dying": "i'm dying",
+      "dweller-help": "help me",
+      "dream-this-night": "this night, you have three dreams ",
+      "agitated-ball": "a mighty ball is expanding inside you ",
+      "agitated-quiver": "the walls of your body quiver  \t\t\t\t\t",
+      "attribute-disquiet": "disquiet slowly drains rapture",
+      "attribute-rapture": "rapture is fuel",
+      "attribute-hunger": "frankly, a religious yearning",
+      "attribute-money": "money is fuel",
+      "attribute-choice": "choice is everything"
+    },
+    "logs": {
+      "opening": "you are sitting on the couch in your outdoor clothes",
+      "groceries": "15 portions bought",
+      "dishes": "you force yourself to wash every last dish",
+      "log-6696e94e-218": "you eat quickly, burning your mouth",
+      "log-838f6c4f-744": "you make red sauce over rice, and there's leftovers",
+      "tv": "",
+      "tv-fake-teeth": "on the screen a man smiles, showing teeth you know are fake",
+      "tv-game": "a game is on. they always try so hard",
+      "tv-this-hour": "at this hour there’s not much on",
+      "tv-movie": "you watch a movie about a girl with no legs",
+      "tv-wall": "how easy is it for a man to fly through a wall?",
+      "observe": "",
+      "sunset": "there is a beautiful streak across the sky",
+      "approved-hardware-cupboard": "",
+      "approved-library-paragraph": "you read the same paragraph twice, then look up",
+      "approved-person-pause": "PERSON asks what you were going to say. you try to remember",
+      "approved-food-distro-bag": "you hold the bag open while someone puts the bread inside",
+      "approved-food-distro-tin": "someone asks for one more tin. you reach into the box",
+      "approved-serving-plate": "you lift the plate and fit it back into the groove. but you test it and it still clanks",
+      "approved-person-curtain": "the room is getting dark. they get up to close the curtain",
+      "approved-person-together": "PERSON says they were hoping you wanted to be together",
+      "hardware-store-description-01": "on break your co worker tells you about a video game he is playing. “It’s so realistic.”",
+      "hardware-store-description-02": "someone you recognize from long ago comes into the store",
+      "hardware-store-description-03": "you have worked here 3 years",
+      "hardware-store-description-04": "time doubles back on itself and leaps forward. you unbox a TV",
+      "hardware-store-description-05": "you look at your manager and smile. he grimaces, but it’s not about you",
+      "pace-description-01": "you pace awhile",
+      "pace-description-02": "is there someone behind you?",
+      "pace-description-03": "you have thoughts, nearly hallucinatory, about your future",
+      "pace-description-04": "you make up a song which will never be heard again",
+      "pace-description-05": "",
+      "smoke-joint-description-01": "you readily indulge the trivial",
+      "smoke-joint-description-02": "how could drums be so crisp? [remove this]",
+      "smoke-joint-description-03": "you stand a while under your favorite tree",
+      "frozen-dinner-description-01": "the serving plate clanks with every rotation",
+      "visit-library-description-01": "you go through the magazine section, stopping at the science ones",
+      "visit-library-description-02": "you see PERSON and are drawn to ask them a question which doesn’t matter",
+      "visit-library-description-03": "you take home a book on atoms",
+      "visit-library-description-04": "you take home a book on the stock exchange",
+      "visit-library-description-05": "you take home a book on biology.",
+      "library-social-event-description": "it occurs to you to speak to PERSON in a friendly way",
+      "person-party-description": "there will be a party next week. you have PERSON’s number",
+      "person-worked-here-description": "you have a pleasant conversation with PERSON",
+      "person-conversation-description-01": "there’s a movie you both know. “what’s your favorite movie?”",
+      "person-conversation-description-02": "something you say makes them frown, mildly. they look up at you and you feel their eyes",
+      "person-conversation-description-03": "PERSON argues well. you find yourself reconsidering steadfast beliefs",
+      "person-conversation-description-04": "PERSON tells you a beautiful story about their past you hope is true",
+      "person-conversation-description-05": "you speak to PERSON about your life as if was a Russian novel. they tell you to keep going",
+      "person-conversation-description-06": "PERSON is distracted by a sound in the air you cannot hear",
+      "person-conversation-description-07": "PERSON tells you about poetry. it can fill time",
+      "person-conversation-description-08": "you tell PERSON about your strange dreams. you do not say you believe some of them",
+      "ai-roy-style-345-talk-with-person-v01": "PERSON remembers something you told them the last time you talked",
+      "invite-person-dinner-description-01": "PERSON burns their hand washing dishes. you reach out and clasp hands for moment. they say nothing",
+      "ai-roy-style-279-study-markets-v07": "you calculate interest on the interest, and consider the result",
+      "ai-roy-style-719-find-jim-in-the-morning-v06": "in the morning light he looks older than you remember",
+      "ai-roy-style-367-spend-the-evening-with-person-v06": "PERSON's coat is on the chair beside you. another hour goes by",
+      "ai-roy-style-587-browse-without-a-purpose-v03": "the modem has gone quiet. you continue clicking through pages",
+      "ai-roy-style-565-watch-television-v07": "you laugh a little as the audience laughs too ",
+      "sleep-poor": "you wake up hungry. you have work in an hour",
+      "hole-better": "you feel much better",
+      "generic-leftovers": "you eat leftovers",
+      "generic-time-lost": "the time is lost, completely",
+      "generic-sleep-failed": "you try to sleep",
+      "night-hungry": "you’re hungry",
+      "night-still-hungry": "you're still hungry",
+      "night-feel-sick": "you feel sick, but you're still hungry",
+      "store-shift": ""
+    },
+    "statLabels": {
+      "hunger": "hunger",
+      "rapture": "rapture",
+      "money": "money"
+    },
+    "ui": {
+      "skip": "skip intro",
+      "yes": "y",
+      "no": "n",
+      "next": "read the next line",
+      "back": "previous line",
+      "begin": "begin",
+      "dismiss": "continue",
+      "return": "return",
+      "log": "notepad",
+      "settings": "settings",
+      "restart": "restart intro",
+      "sound": "sound",
+      "motion": "reduce motion",
+      "saved": "Saved on this device",
+      "saveFailed": "Save unavailable",
+      "logDate": "April 3rd",
+      "logStartHour": "14",
+      "jointsRemaining": "X joints remaining",
+      "portionsRemaining": "X portions remaining",
+      "frozenPortionsRemaining": "X portions remaining"
+    },
+    "messageLinks": {
+      "confirmRaptureLoss": {
+        "bold": true
+      },
+      "firstRaptureMeal": {
+        "next": "meal-recipe"
+      },
+      "meal-recipe": {
+        "next": "meal-rapture"
+      },
+      "meal-rapture": {},
+      "groceries": {
+        "next": "groceries-cost"
+      },
+      "groceries-cost": {},
+      "money-concept": {
+        "next": "money-richer"
+      },
+      "money-richer": {},
+      "observe-familiar": {
+        "next": "observe-letters"
+      },
+      "observe-letters": {
+        "next": "observe-smell"
+      },
+      "observe-smell": {
+        "next": "observe-dissonance"
+      },
+      "observe-dissonance": {},
+      "sunset-dark": {
+        "next": "sunset-outside"
+      },
+      "sunset-outside": {
+        "next": "sunset-color"
+      },
+      "sunset-color": {
+        "log": "sunset"
+      },
+      "sunset-hole": {
+        "log": "sunset"
+      },
+      "person-description-01": {
+        "next": "person-description-02"
+      },
+      "person-description-02": {
+        "next": "person-description-03"
+      },
+      "person-description-03": {
+        "next": "person-description-04"
+      },
+      "person-description-04": {
+        "next": "person-description-05"
+      },
+      "person-description-05": {
+        "next": "person-description-06"
+      },
+      "person-description-06": {},
+      "person-social-response": {
+        "next": "person-party-intertitle"
+      },
+      "person-party-intertitle": {},
+      "dream-start": {
+        "next": "dream-bull"
+      },
+      "dream-bull": {
+        "next": "dream-city"
+      },
+      "dream-city": {
+        "next": "dream-laugh"
+      },
+      "dream-laugh": {
+        "next": "dream-pull"
+      },
+      "dream-pull": {},
+      "hole-bread": {
+        "next": "hole-unwrap"
+      },
+      "hole-unwrap": {
+        "next": "hole-eat"
+      },
+      "hole-eat": {
+        "next": "hole-leave"
+      },
+      "hole-leave": {
+        "next": "hole-home"
+      },
+      "hole-home": {},
+      "body-ribcage": {
+        "next": "hunger-feel-fully"
+      },
+      "hunger-feel-fully": {
+        "next": "hunger-somewhere-else"
+      },
+      "hunger-somewhere-else": {
+        "next": "hunger-know"
+      },
+      "hunger-know": {}
+    },
+    "requireActionLogs": false,
+    "textLayouts": {
+      "intro": {
+        "collegetown-setting": {
+          "align": "center"
+        }
+      }
+    },
+    "firstPurchaseMessage": "money-concept",
+    "hungerIndicator": {
+      "enabled": true,
+      "rapidPerHour": 2
+    },
+    "startingValues": {
+      "money": 850,
+      "disquiet": 1
+    },
+    "scheduledEvents": [
+      {
+        "id": "sunset",
+        "hour": 19,
+        "message": "sunset-dark",
+        "action": "watch-sunset"
+      }
+    ],
+    "allowEmptyDescriptions": true,
+    "storyRules": {
+      "startingPortions": 0,
+      "startingJoints": 3,
+      "groceryPortions": 15,
+      "mealPortions": 1,
+      "mealRelief": 12,
+      "hungryAt": 22,
+      "offeringMax": 3,
+      "offeringPerHunger": 12,
+      "holeReliefTo": 8,
+      "sleepHour": 22,
+      "wakeHour": 8,
+      "sleepChance": 0.55,
+      "hungerReveal": "ribcage",
+      "meals": [
+        "dinner",
+        "cook",
+        "invite-person-dinner",
+        "breakfast",
+        "eat-leftovers"
+      ],
+      "personAfter": "hardware-store",
+      "personMessage": "person-description-01",
+      "libraryPrompt": "library-social-event-description",
+      "libraryChoices": [
+        "person-social",
+        "person-worked-here",
+        "person-coffee",
+        "person-not-yet"
+      ],
+      "openingFlow": {
+        "enabled": true,
+        "homeActions": [
+          "groceries",
+          "dinner",
+          "tv",
+          "dishes",
+          "pace",
+          "smoke-joint",
+          "browse",
+          "fix-serving-plate",
+          "bath",
+          "lie-on-couch",
+          "look-out-window",
+          "eat-leftovers",
+          "observe"
+        ],
+        "hungerMessage": "body-ribcage",
+        "shiftStartHour": 9,
+        "shiftEndHour": 15,
+        "shiftRapture": -4,
+        "mealRapture": -2,
+        "morningGroceriesMinutes": 30,
+        "postMealMinutes": 60,
+        "firstNight": {
+          "enabled": true,
+          "windDownHour": 22,
+          "bedHours": [
+            25,
+            26
+          ],
+          "settlingMinutes": 90,
+          "mealPortions": 1,
+          "settlingActions": [
+            "pace",
+            "lie-on-couch"
+          ],
+          "appendices": {
+            "hungry": "night-hungry",
+            "stillHungry": "night-still-hungry",
+            "sick": "night-feel-sick"
+          },
+          "cookingAfterGroceries": true
+        }
+      },
+      "leftoverPortions": 1,
+      "startingFrozenPortions": 4
+    },
+    "contentAssembly": {
+      "id": "roy-approved-2026-09-25",
+      "reviewRevision": "ac193818-0e7d-4a67-ac33-6c412d2ce60c",
+      "sources": [
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-card",
+          "collection": "actions",
+          "key": "hardware-store",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-description-01",
+          "collection": "logs",
+          "key": "hardware-store-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-description-02",
+          "collection": "logs",
+          "key": "hardware-store-description-02",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-description-03",
+          "collection": "logs",
+          "key": "hardware-store-description-03",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-description-04",
+          "collection": "logs",
+          "key": "hardware-store-description-04",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-hardware-store-description-05",
+          "collection": "logs",
+          "key": "hardware-store-description-05",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-hardware-cupboard",
+          "collection": "logs",
+          "key": "approved-hardware-cupboard",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-food-distro-card",
+          "collection": "actions",
+          "key": "food-distro",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-food-distro-bag",
+          "collection": "logs",
+          "key": "approved-food-distro-bag",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-food-distro-tin",
+          "collection": "logs",
+          "key": "approved-food-distro-tin",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-card",
+          "collection": "actions",
+          "key": "pace",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-description-01",
+          "collection": "logs",
+          "key": "pace-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-description-02",
+          "collection": "logs",
+          "key": "pace-description-02",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-description-03",
+          "collection": "logs",
+          "key": "pace-description-03",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-description-04",
+          "collection": "logs",
+          "key": "pace-description-04",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-pace-description-05",
+          "collection": "logs",
+          "key": "pace-description-05",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-smoke-joint-card",
+          "collection": "actions",
+          "key": "smoke-joint",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-smoke-joint-description-01",
+          "collection": "logs",
+          "key": "smoke-joint-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-smoke-joint-description-02",
+          "collection": "logs",
+          "key": "smoke-joint-description-02",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-smoke-joint-description-03",
+          "collection": "logs",
+          "key": "smoke-joint-description-03",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-frozen-dinner-description-01",
+          "collection": "logs",
+          "key": "frozen-dinner-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-frozen-dinner-card",
+          "collection": "actions",
+          "key": "dinner",
+          "preservedLiveLabel": true,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-fix-serving-plate-card",
+          "collection": "actions",
+          "key": "fix-serving-plate",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-serving-plate",
+          "collection": "logs",
+          "key": "approved-serving-plate",
+          "version": 3,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-01",
+          "collection": "messages",
+          "key": "person-description-01",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-02",
+          "collection": "messages",
+          "key": "person-description-02",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-03",
+          "collection": "messages",
+          "key": "person-description-03",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-04",
+          "collection": "messages",
+          "key": "person-description-04",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-05",
+          "collection": "messages",
+          "key": "person-description-05",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-description-06",
+          "collection": "messages",
+          "key": "person-description-06",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-description-01",
+          "collection": "logs",
+          "key": "visit-library-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-description-02",
+          "collection": "logs",
+          "key": "visit-library-description-02",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-description-03",
+          "collection": "logs",
+          "key": "visit-library-description-03",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-description-04",
+          "collection": "logs",
+          "key": "visit-library-description-04",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-description-05",
+          "collection": "logs",
+          "key": "visit-library-description-05",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-visit-library-card",
+          "collection": "actions",
+          "key": "visit-library",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-library-paragraph",
+          "collection": "logs",
+          "key": "approved-library-paragraph",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-library-social-event-description",
+          "collection": "logs",
+          "key": "library-social-event-description",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-social-response",
+          "collection": "messages",
+          "key": "person-social-response",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-party-intertitle",
+          "collection": "messages",
+          "key": "person-party-intertitle",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-social-card",
+          "collection": "actions",
+          "key": "person-social",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-party-description",
+          "collection": "logs",
+          "key": "person-party-description",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-worked-here-card",
+          "collection": "actions",
+          "key": "person-worked-here",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-worked-here-description",
+          "collection": "logs",
+          "key": "person-worked-here-description",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-coffee-need-choice",
+          "collection": "messages",
+          "key": "person-coffee-need-choice",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-coffee-card",
+          "collection": "actions",
+          "key": "person-coffee",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-not-yet-card",
+          "collection": "actions",
+          "key": "person-not-yet",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-talk-to-person-card",
+          "collection": "actions",
+          "key": "talk-person",
+          "version": 2,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-01",
+          "collection": "logs",
+          "key": "person-conversation-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-02",
+          "collection": "logs",
+          "key": "person-conversation-description-02",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-03",
+          "collection": "logs",
+          "key": "person-conversation-description-03",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-04",
+          "collection": "logs",
+          "key": "person-conversation-description-04",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-05",
+          "collection": "logs",
+          "key": "person-conversation-description-05",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-06",
+          "collection": "logs",
+          "key": "person-conversation-description-06",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-07",
+          "collection": "logs",
+          "key": "person-conversation-description-07",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-person-conversation-description-08",
+          "collection": "logs",
+          "key": "person-conversation-description-08",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-345-talk-with-person-v01",
+          "collection": "logs",
+          "key": "ai-roy-style-345-talk-with-person-v01",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-person-pause",
+          "collection": "logs",
+          "key": "approved-person-pause",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-invite-person-dinner-card",
+          "collection": "actions",
+          "key": "invite-person-dinner",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:roy-2026-09-23-invite-person-dinner-description-01",
+          "collection": "logs",
+          "key": "invite-person-dinner-description-01",
+          "version": 1,
+          "author": "Roy"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-279-study-markets-v07",
+          "collection": "logs",
+          "key": "ai-roy-style-279-study-markets-v07",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-719-find-jim-in-the-morning-v06",
+          "collection": "logs",
+          "key": "ai-roy-style-719-find-jim-in-the-morning-v06",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-person-curtain",
+          "collection": "logs",
+          "key": "approved-person-curtain",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-367-spend-the-evening-with-person-v06",
+          "collection": "logs",
+          "key": "ai-roy-style-367-spend-the-evening-with-person-v06",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-new-batch-2026-09-23-person-together",
+          "collection": "logs",
+          "key": "approved-person-together",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-587-browse-without-a-purpose-v03",
+          "collection": "logs",
+          "key": "ai-roy-style-587-browse-without-a-purpose-v03",
+          "version": 2,
+          "author": "AI"
+        },
+        {
+          "sourceId": "draft:ai-roy-style-565-watch-television-v07",
+          "collection": "logs",
+          "key": "ai-roy-style-565-watch-television-v07",
+          "version": 2,
+          "author": "AI"
+        }
+      ]
+    },
+    "choicePolicy": {
+      "hideUnavailable": true,
+      "mealGapMinutes": 180,
+      "deal": {
+        "size": 4,
+        "recentWindow": 3,
+        "repeatWeight": 0.25,
+        "threadBoost": 0.5
+      }
+    },
+    "startingItems": [],
+    "genericResponsesInstalled": true,
+    "frozenFoodInstalled": true,
+    "firstNightInstalled": true,
+    "firstNightCookingInstalled": true
+  },
+  "kind": "autosave"
+}

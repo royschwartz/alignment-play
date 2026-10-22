@@ -1,0 +1,20 @@
+/* Only the print is masked. Its original font, dimensions, authored text,
+   accessibility name, and location on every raised/lowered face stay put.
+   Masks inherit from the card into the activity-hold copies. */
+.choice.forming-ink .button > :is(.label, .money) {
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 0 0;
+  mask-position: 0 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  mask-mode: alpha;
+}
+.choice.forming-ink .button > .label {
+  -webkit-mask-image: var(--forming-label-mask);
+  mask-image: var(--forming-label-mask);
+}
+.choice.forming-ink .button > .money {
+  -webkit-mask-image: var(--forming-money-mask);
+  mask-image: var(--forming-money-mask);
+}

@@ -1,0 +1,181 @@
+{
+  "_note": "What you can be doing (Opus 5.5 version, October 11, 2026). `label` is the present-tense label shown on the left of the middle section (\"label:...\" is one of Roy's labels in writing/labels.json). `action` names the manuscript action that supplies how long it takes and its descriptions. `place` is where it happens; being there takes no travel. `uses` is spent as it starts; `during` arrives evenly while it lasts and stops if it's cut short; `linger` starts at the beginning and lasts two story hours by default, even after the activity ends; `end` happens only if it's finished, and then arrives quickly or slowly (`flow`: \"quick\", \"slow\" or story minutes; tuning's default otherwise), except money, which changes at once. \"@...\" reads a number from the manuscript (\"@action.cook.effects.rapture\") or from tuning. `rate` is rapture per story hour while it lasts (the same rates as game/content/activities.json on October 11). `kind` is a bundle of rules (below). `habit` marks what can become automatic: `habit.when` is when it then happens by itself. `negates` lists the cards that go the moment it starts, whatever the numbers (Roy, Oct 12, 278); a card its own results will take away goes then too, without being listed. A description marked `done` says the task is done (Roy, Oct 13, 313): it comes at the end of the task, `tell.closing` story minutes before it's over (315: game time, never real seconds), and the task clears when those have gone by; which descriptions are marked is provisional beyond the red sauce. Everything not read from the manuscript is provisional. Hunger is never added here: it rises by itself.",
+
+  "kinds": {
+    "_note": "idle: you're free; cards can be taken, and it goes on until something else starts. leisure: it has its own duration and effects, but cards stay available; another activity can interrupt it (since Oct 18, 398, only the few exceptions). task: it holds the other cards until it's over; every activity you choose is one unless it says otherwise (Roy, Oct 18, 398). away: no cards show at all (asleep, at work). asleep: the asleep drift applies. inBed: you aren't awake. still: nothing changes and there's no mood (the reset).",
+    "idle": { "idle": true },
+    "leisure": { "interruptible": true },
+    "task": {},
+    "sleep": { "away": true, "asleep": true, "inBed": true },
+    "try-sleep": { "away": true, "inBed": true },
+    "wake": { "away": true },
+    "commitment": { "away": true },
+    "trip": { "away": true },
+    "reset": { "away": true, "still": true }
+  },
+
+  "activities": [
+    { "id": "idle", "kind": "idle", "label": "", "_label": "Roy, Oct 12 (272): \"we should remove idle, it will just be implied\". Nothing is written for it; the line is blank.",
+      "place": "home", "minutes": [45, 60, 90], "rate": -0.5,
+      "drift": { "restlessness": 1 } },
+
+    { "id": "sleep", "kind": "sleep", "label": "label:sleeping", "place": "home", "rate": 0.5 },
+    { "id": "try-sleep", "kind": "try-sleep", "label": "label:trying-to-sleep", "action": "try-sleep", "place": "home",
+      "during": { "rapture": "@action.try-sleep.effects.rapture" } },
+    { "id": "wake", "kind": "wake", "label": "label:waking-up", "place": "home", "minutes": [15, 20, 30],
+      "tell": { "refs": [{ "ref": "log:sleep-poor", "when": { "shiftWithin": 100 } }], "chance": 1, "always": true } },
+
+    { "id": "shift", "kind": "commitment", "label": "label:working-at-store", "action": "hardware-store", "place": "store",
+      "during": { "rapture": "@storyRules.openingFlow.shiftRapture" }, "tally": "worked",
+      "drift": { "tiredness": 2, "restlessness": -3, "loneliness": -1.5, "anxiety": 1 },
+      "tell": { "refs": ["log:store-shift", "log:hardware-store-description-01", "log:hardware-store-description-02", "log:hardware-store-description-03",
+                         "log:hardware-store-description-04", "log:hardware-store-description-05", "log:approved-hardware-cupboard"],
+                "every": 90, "chance": 0.6, "max": 3 } },
+
+    { "id": "reset", "kind": "reset", "label": "", "place": null, "minutes": [15] },
+
+    { "id": "dishes", "label": "label:doing-the-dishes", "action": "dishes", "place": "home", "hours": [8, 23], "minutes": [45, 60],
+      "requires": { "house": "dirty" }, "end": { "mess": -100 },
+      "tell": { "_note": "Roy, Oct 13 (353): \"the first pain card you play should just say pain: eg, pain: you force yourself to wash every last dish\", \"replacet the current dish description with this\". `withPain`: its description is said with the pain, in one line, the moment the card is pressed: always the first time, afterwards by its chance, and otherwise the line is just \"pain\" (316: \"sometimes it will be accompanied by a description\"). Nothing is told later in the task, so 334's `done` mark is gone with the old line.",
+                "from": "log", "chance": 0.8, "withPain": true },
+      "habit": { "when": { "house": "dirty" } } },
+
+    { "id": "groceries", "label": "label:shopping-for-groceries", "action": "groceries", "place": "grocery-store",
+      "_minutes": "Roy, Oct 13 (342): \"remembering the concept of money and also buying portions should happen later, with some time to get back home\"; \"the key difference is more minutes should pass\". The manuscript's 45, 60 or 90 story minutes of shopping, and 15 more each way (provisional). Roy, Oct 18 (398): \"all the activities should last much longer\": 90, 120 or 150 of shopping and the 15 each way (provisional).",
+      "minutes": [120, 150, 180],
+      "uses": { "money": 50 }, "end": { "stock.portions": "@storyRules.groceryPortions" }, "restock": { "frozen": "@tuning.groceries.frozenRestock", "beer": "@tuning.groceries.beerRestock" },
+      "tell": { "_note": "Roy, Oct 12 (268): no intertitle; towards the end the money line, the first time, then a few moments later what was bought. `order`: each one that fits, as written. Roy, Oct 13 (342): \"with some time to get back home\": the last one comes `lead` story minutes before the trip ends, the way home (15, provisional; it was `tell.closing` under 315), so it's read like any description in the middle. `every` is provisional minutes.",
+                "refs": [{ "ref": "message:money-concept", "when": { "hidden": ["money"] }, "reveals": ["money"] }, "log:groceries"],
+                "order": true, "lead": 15, "every": 6 },
+      "habit": { "when": { "any": [{ "stockAtMost": { "portions": 2 } }, { "stockAtMost": { "frozen": 0 } }] } } },
+
+    { "id": "cook", "label": "label:cooking-a-meal", "action": "cook", "place": "home", "hours": [11, 22], "minutes": [90, 120], "rate": 3,
+      "negates": ["frozen-dinner"], "_negates": "Roy, Oct 12 (274): once you're cooking a meal there's no frozen dinner option.",
+      "uses": { "portions": "@storyRules.mealPortions" },
+      "requires": { "stat": { "appetite": [30, null] }, "house": "clean" },
+      "end": { "appetite": -60, "mess": 30, "stock.leftovers": "@storyRules.leftoverPortions" },
+      "linger": { "rapture": "@action.cook.effects.rapture" },
+      "lingerFrom": "done", "_lingerFrom": "Roy, Oct 13 (343): \"after cooking the meal intertitle (something warm expands in you) that's when rapture should go up\". The meal's rapture begins as its description at the end is told, straight after the first meal's intertitle, and no longer as the cooking starts. What the cooking's hourly `rate` would have added meanwhile is held back and begins with it, so a meal lifts as much as it did. Later meals have no intertitle and begin the same way (provisional).",
+      "tell": { "_note": "Roy, Oct 12 (273, 275, 276): the first meal's description comes at once, straight after its intertitle; it's the cook action's own log in the manuscript. After that it's the generic one. `one`: only the first that fits. Roy, Oct 13 (313): \"cooking should be done with almost immediately after since this message suggests the task was completed\": `done`, so it comes at the end of the cooking, in game time (315), straight after the first meal's intertitle (events.json). The generic line is marked the same way (provisional).",
+                "refs": [{ "ref": "log:log-838f6c4f-744", "once": true, "done": true }, { "ref": "label:home-cooked-meal", "generic": true, "done": true }],
+                "order": true, "one": true },
+      "habit": { "when": { "stat": { "appetite": [50, null] } } } },
+
+    { "id": "dinner", "label": "label:making-a-frozen-dinner", "action": "dinner", "place": "home", "hours": [6, 26], "minutes": [30, 45],
+      "_minutes": "Roy, Oct 18 (398): longer than the manuscript's 15, 30 or 45, and no longer than 45, so it still fits between waking and the shift (provisional).",
+      "negates": ["cook"], "_negates": "Roy, Oct 12 (278): \"eating frozen meal negates cook a meal option\".",
+      "uses": { "frozen": 1 }, "end": { "appetite": -50, "mess": 10 }, "linger": { "rapture": "@storyRules.openingFlow.mealRapture" },
+      "tell": { "from": "outcomes", "chance": 1 },
+      "habit": { "when": { "stat": { "appetite": [60, null] } } } },
+
+    { "id": "fix-plate", "label": "label:fixing-serving-plate", "action": "fix-serving-plate", "place": "home", "hours": [9, 22], "minutes": [60, 90, 120],
+      "_back": "Roy, Oct 15 (379): \"fixing the microwave plate can come back (after it clanks)\". Its card waits for the fact the frozen dinner's clanking description sets.",
+      "tell": { "from": "log", "chance": 1, "always": true } },
+
+    { "id": "tv", "label": "label:watching-tv", "action": "tv", "place": "home", "hours": [7, 27], "rate": 0.5,
+      "_back": "Roy, Oct 15 (379): \"tv can stay\". Roy, Oct 18 (398): \"even watch tv will activity lock\": a task now, no longer leisure (264). Its lengths are the manuscript's, one to four hours by what's on.",
+      "drift": { "restlessness": -0.5, "loneliness": -0.5, "anxiety": -1 },
+      "tell": { "from": "outcomes", "outcome": true, "chance": 1, "always": true, "tags": { "log:tv-this-hour": { "when": { "hours": [22, 34] } } } } },
+
+    { "id": "hole-trip", "kind": "trip", "label": "label:going-to-the-hole", "action": "go-hole", "place": "woods", "hours": [6, 22], "minutes": [60, 90] },
+
+
+    { "id": "couch", "kind": "leisure", "label": "label:lying-on-the-couch", "place": "home", "hours": [7, 26], "minutes": [60, 90, 120],
+      "_kind": "One of the few that don't lock (Roy, Oct 18, 398: \"with a few excpetions\"): you'd get up from the couch for anything. Roy kept it (399: \"keep the couch and the radio as the exceptions\").",
+      "outcomes": [
+        { "id": "rest", "linger": { "rapture": 1 }, "end": { "tiredness": -10 } },
+        { "id": "nothing" },
+        { "id": "sink", "linger": { "rapture": -1 } } ] },
+
+    { "id": "walk", "kind": "trip", "label": "label:going-for-a-walk", "place": "neighborhood", "hours": [7, 21], "minutes": [45, 60, 90],
+      "_note": "Roy, Oct 18: \"If you're agitated you may want to go for a walk 'remove pace'\". A walk works the anger and the restlessness off while it lasts (provisional).",
+      "drift": { "anger": -40, "restlessness": -40 },
+      "outcomes": [
+        { "id": "clears", "linger": { "rapture": 2 } },
+        { "id": "nothing" },
+        { "id": "rain", "linger": { "rapture": -1 } } ] },
+
+    { "id": "magazine", "label": "label:reading-a-magazine", "place": "home", "hours": [8, 24], "minutes": [45, 60, 90],
+      "outcomes": [
+        { "id": "good", "linger": { "rapture": 1 } },
+        { "id": "nothing" },
+        { "id": "worse", "linger": { "rapture": -1 } } ] },
+
+    { "id": "radio", "kind": "leisure", "label": "label:listening-to-the-radio", "place": "home", "hours": [6, 27], "minutes": [60, 90, 120],
+      "_kind": "One of the few that don't lock (398): it plays while you do something else. Roy kept it (399).",
+      "outcomes": [
+        { "id": "music", "linger": { "rapture": 1 } },
+        { "id": "talk" },
+        { "id": "call-in", "sets": ["heard-call-in-show"], "_note": "The overnight call-in show about the unexplained, for later (provisional)." } ] },
+
+    { "id": "beer", "label": "label:having-a-beer", "place": "home", "hours": [16, 26], "minutes": [45, 60], "uses": { "beer": 1 },
+      "outcomes": [
+        { "id": "lift", "linger": { "rapture": 2 }, "flow": "quick" },
+        { "id": "lift-tired", "linger": { "rapture": 2 }, "flow": "quick", "end": { "tiredness": 15 } },
+        { "id": "heavy", "linger": { "rapture": -1 } } ] },
+
+    { "id": "clean", "label": "label:cleaning-the-house", "place": "home", "hours": [9, 21], "minutes": [120, 150, 180],
+      "requires": { "house": "dirty" }, "end": { "mess": -100 },
+      "outcomes": [
+        { "id": "done", "linger": { "rapture": 1 }, "flow": "slow" },
+        { "id": "worn-out", "end": { "tiredness": 20 } },
+        { "id": "found", "sets": ["found-something"] } ] },
+
+    { "id": "leftovers", "label": "label:eating-leftovers", "action": "eat-leftovers", "place": "home", "hours": [10, 25], "minutes": [30],
+      "_note": "Roy, Oct 18 (388): \"you don't want to eat if you're not psyiologically hungry\": only at the frozen dinner card's appetite (provisional, 198).",
+      "uses": { "leftovers": 1 }, "requires": { "stat": { "appetite": [50, null] } }, "end": { "appetite": -40, "mess": 5 } },
+
+    { "id": "notebook", "label": "label:writing-in-a-notebook", "place": "home", "hours": [9, 25], "minutes": [45, 60, 90],
+      "end": { "reflection": 1 },
+      "outcomes": [
+        { "id": "bad", "linger": { "rapture": -1 } },
+        { "id": "nothing" },
+        { "id": "something", "linger": { "rapture": 1, "choice": 1 } } ] },
+
+    { "id": "exercise", "label": "label:exercising", "place": "home", "hours": [7, 21], "minutes": [45, 60],
+      "_note": "Roy, Oct 18 (391): \"exercise (pain card) - (this can bring on anrgy emotion which gets you into a agitated state - initially this will be accompanied by an intertitle\". Anger is the first time's outcome, so the first exercise brings his intertitle; after that about one time in three (provisional). It rises while you exercise and reaches agitated partway through. Since exercise lasts longer (398) it rises half as fast, so it comes to what it did (provisional).",
+      "outcomes": [
+        { "id": "anger", "first": true, "drift": { "anger": 90 } },
+        { "id": "sore", "linger": { "rapture": -1 }, "end": { "tiredness": 10 } },
+        { "id": "loose", "linger": { "rapture": 1 }, "end": { "restlessness": -20 } } ] },
+
+    { "id": "tape", "label": "label:watching-a-tape", "place": "home", "hours": [12, 26], "minutes": [120, 150, 180],
+      "outcomes": [
+        { "id": "good", "linger": { "rapture": 3 }, "flow": "slow" },
+        { "id": "chewed", "minutes": [30, 45], "linger": { "rapture": -1 } },
+        { "id": "seen-it" },
+        { "id": "asleep", "minutes": [60, 90], "end": { "tiredness": -20 } },
+        { "id": "home-video", "weight": 0.25, "sets": ["home-video"] } ] },
+
+    { "id": "nintendo", "label": "label:playing-the-old-nintendo", "place": "home", "hours": [10, 26], "minutes": [90, 120, 180],
+      "outcomes": [
+        { "id": "fun", "linger": { "rapture": 2 } },
+        { "id": "blow", "linger": { "rapture": 1 } },
+        { "id": "losing", "linger": { "rapture": -1 }, "end": { "restlessness": 10 } },
+        { "id": "level", "linger": { "rapture": 2 } } ] },
+
+    { "id": "music", "label": "label:listening-to-music", "place": "home", "hours": [9, 25], "minutes": [60, 90, 120],
+      "outcomes": [
+        { "id": "good", "linger": { "rapture": 2 } },
+        { "id": "hurts", "linger": { "rapture": -1 } },
+        { "id": "dancing", "linger": { "rapture": 2 }, "end": { "restlessness": -15 } } ] },
+
+    { "id": "guitar", "label": "label:playing-the-guitar", "place": "home", "hours": [10, 23], "minutes": [45, 60, 90],
+      "outcomes": [
+        { "id": "out-of-tune" },
+        { "id": "sore-fingers", "linger": { "rapture": -1 } },
+        { "id": "sounds-right", "linger": { "rapture": 2 } } ] },
+
+    { "id": "novel", "label": "label:reading-a-novel", "place": "home", "hours": [8, 25], "minutes": [90, 120, 180],
+      "outcomes": [
+        { "id": "absorbed", "linger": { "rapture": 2 }, "flow": "slow" },
+        { "id": "no-focus", "minutes": [20, 30] },
+        { "id": "finished", "weight": 0.3, "linger": { "rapture": 3 }, "flow": "slow" } ] }
+  ],
+
+  "_opening": "The opening's activities at home (Roy, Oct 18, 388-390, 392): \"this is before the rest of the game opens up\", \"there should be no descriptions here, I may add to later\", \"events may have random outcomes (you can see that with tv, sometimes it helps sometimes it hurts)\". None tells anything. Each picks one of its `outcomes` as it starts (engine/content.mjs, buildOutcomes): `linger` is what's felt (two story hours by default; `flow` \"quick\" or \"slow\"), `drift` what moves inside while it lasts, per hour, `end` what happens if it's finished, `minutes` a length of its own, `sets` facts for later, `weight` how likely, `first` the first time's. Lengths, hours, outcomes and numbers are Claude's, provisional.",
+
+  "_lock": "Roy, Oct 18 (398): \"all the activities should last much longer and lock the screen - I think all activities you choose should lock screen and some time with a few excpetions (most activioty lock) - even watch tv will activity lock\". An activity is a task unless it says otherwise, so what you choose holds the cards until it's over; only lying on the couch and the radio stay leisure (Claude's choice of the few, which Roy kept, 399). Lengths are about two to three times what they were: about an hour for the short pastimes, two to three for the long ones, the chores and meals longer too (provisional). tv keeps the manuscript's lengths, one to four hours. Checked in game-opus/test/lock.test.mjs.",
+
+  "_retired": "Roy, Oct 15 (370): \"all current activities should be retired with the exception of going to work / grocery / dishes / cooking a frozen meal / sunset\". Cooking a meal and the trip to the hole stay (Roy, the same day). Breakfast, leftovers, the bath, observing, the joint, the library, talking to PERSON, studying markets and the food distro are kept as they were in retired.json, which the engine never reads. Roy, the same day (379): \"fixing the microwave plate can come back (after it clanks), tv can stay\", so those two are live again, as they were. New activities follow spec/activities.md."
+}

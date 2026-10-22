@@ -1,0 +1,63 @@
+{
+  "_note": "Events stop the clock and cover the screen below the attributes (Opus 5.5 version; the same events and the same writing as game/content/events.json on October 11, 2026, with this version's triggers). Pages and answer labels are manuscript IDs; `after` is a description that appears once the event closes. Answers are choices too: `pain` makes one a pain card and costs rapture, which becomes Choice; `requires` locks it until Choice is high enough. `silent` events have no writing yet, so they apply their effect without a break. `closed` answers are locked in the manuscript and have no writing past them. An answer can lead to `answers` of its own (branching, Oct 13); `then: answers` returns to the answers it was among; anything else ends the event. Triggers and the order of pages are provisional.",
+
+  "_retired": "Roy, Oct 15 (370): observing's first time and the library encounter hung on activities that retired, so they're kept as they were in retired.json, which the engine never reads, until something new starts them (spec/activities.md). So is meeting PERSON at the end of the first shift (Roy, Oct 15, 380: \"you shouldn't see person at the store\").",
+
+  "events": [
+    { "id": "first-night", "once": true, "trigger": { "activityStart": "try-sleep" },
+      "_pages": "Roy, Oct 15 (384): \"Add these intertitles\", [THE FIRST NIGHT]: his five lines, one page each, as you start trying to sleep the first night (feed writing/feeds/2026-10-15-night-intertitles-and-dreams.txt). They replace 383's silence, which removed the old page \"you try to sleep\"; trying to sleep stays. What the event does is unchanged: the manuscript's disquiet, and rapture and disquiet show from its first page. \"that night you do not dream\": the three dreams no longer come the first night.",
+      "pages": ["message:night-first-struggle", "message:night-first-avoiding", "message:night-first-voice", "message:night-first-singing", "message:night-first-no-dream"],
+      "effects": { "disquiet": "@action.try-sleep.effects.disquiet" }, "reveal": { "rapture": 0, "disquiet": 0 } },
+
+    { "id": "night-two", "once": true, "trigger": { "activityElapsed": { "activity": "sleep", "minutes": 120 }, "when": { "night": 2 } },
+      "_pages": "Roy, Oct 15 (384): [NIGHT TWO], \"the second night you dream\". Two hours into the second night's sleep, where the three dreams used to come on the first (provisional).",
+      "thread": "HUNGER", "_thread": "His line \"(hunger)\" after the last page, \"(HUNGER)\" in his first draft: read as a mark like [MOTHER], not shown and doing nothing (provisional, open question 189).",
+      "pages": ["message:night-two-dream", "message:night-two-desert", "message:night-two-suspended", "message:night-two-wailing", "message:night-two-lonely", "message:night-two-hungry"],
+      "italic": ["message:night-two-hungry"],
+      "_hungry": "Roy, Oct 18 (395): \"at the end of the second dream we should add in italic i am hungry, this comes after “you don’t want to be lonely anymore”\", and the hunger passage removed. The dream is now what opens the trip to the hole: it sets `heard-hungry`, which the card waits for, and hunger shows from its italic page, as it did from the passage's first (both provisional, open question 189).",
+      "reveal": { "hunger": 5 }, "sets": ["heard-hungry"] },
+
+    { "id": "dreams", "once": true, "trigger": { "activityElapsed": { "activity": "sleep", "minutes": 120 }, "when": { "night": [3, null] } },
+      "chance": 0.34,
+      "_trigger": "Roy, Oct 15 (384): \"[RANDOM DREAM - SEE HREE DREAMS CARD] this night, you have three dreams\". The three dreams (the bull, the city, the laugh) come on a night after the second, two hours into sleep, decided night by night by chance (about one in three, provisional), once. His new first line replaces \"the first night you have three dreams\" (message:dream-start), which stays in the manuscript unused.",
+      "pages": ["message:dream-this-night", "message:dream-bull", "message:dream-city", "message:dream-laugh", "message:dream-pull"] },
+
+    { "id": "cook-first", "once": true, "trigger": { "beforeTold": "cook" }, "_trigger": "Roy, Oct 12 (275): the red sauce description comes at once after this intertitle. Oct 13 (313, 315): that description comes at the end of the cooking, in game time, so this comes there with it. `beforeTold`: in the story minute before the activity's next description.",
+      "pages": ["message:firstRaptureMeal", "message:meal-recipe", "message:meal-rapture"], "reveal": { "rapture": 2 } },
+
+    { "id": "hole", "trigger": { "activityStart": "hole-trip" },
+      "pages": ["message:hole-standing"],
+      "answers": [
+        { "id": "look", "label": "action:hole-look", "pages": ["message:hole-look"], "then": "answers", "once": true },
+        { "id": "say", "label": "action:hole-say", "pages": ["message:hole-say"], "then": "answers", "once": true },
+        { "id": "feed", "label": "action:hole-feed", "count": "offering", "feed": true,
+          "pages": ["message:hole-bread", "message:hole-unwrap", "message:hole-eat", "message:hole-leave", "message:hole-home"],
+          "laterPages": ["message:hole-bread"], "after": "log:hole-better" },
+        { "id": "flashlight", "label": "action:hole-flashlight", "closed": true },
+        { "id": "climb", "label": "action:hole-climb", "closed": true }
+      ] },
+
+    { "id": "dee-hyton", "once": true,
+      "_note": "Roy, Oct 13 (327): \"EVENT (at work)\", \"there are branching paths\". An answer with `answers` leads to those once what it says has been read; when a branch ends, the event is over. Similar questions get the same reply: both ways of asking what terrible things lead to the same two lines. `categories` marks which of the six categories an answer leans to, and `sets` remembers the path; nothing reads either yet. When at work is provisional: two hours into the first shift. Roy, Oct 15 (380): \"you shouldn't see person at the store. rather there is the encounter with DEE where he talks about HYTON\": it was two hours into a shift after the first, which ended with meeting PERSON, and that meeting is gone. `sets` remembers that you've heard it. The hunger passage waited for it until Roy removed the passage (Oct 18, 395); nothing reads it now.",
+      "sets": ["heard-hyton"],
+      "trigger": { "activityElapsed": { "activity": "shift", "minutes": 120 } },
+      "_pages": "Roy, Oct 18: \"change your coworker dee part\": two intertitles, \"your coworker DEE is ranting about business leaders, one in particular\" and \"it is gregory HYTON, who owns the conglomerate which owns this store\", then DEE's \"HYTON is using magic to do terrible things in the world\", said with the answers (\"that intertitle shows and then the next is just the description with choices\"; the last line before answers always comes with them, `withAnswers` in engine/sim.mjs). HYTON in capitals as he asked on Oct 15 (380). Feed writing/feeds/2026-10-18-dee-rant-and-event-cards.txt.",
+      "pages": ["message:dee-rant", "message:dee-rant-says", "message:dee-rant-quote"],
+      "answers": [
+        { "id": "magic", "label": "action:dee-ask-magic", "categories": ["magic"], "sets": ["dee-magic"],
+          "pages": ["message:dee-magic-teens", "message:dee-magic-selfish", "message:dee-magic-where-he-is"],
+          "answers": [
+            { "id": "know-magic", "label": "action:dee-ask-know-magic", "categories": ["magic"], "sets": ["dee-know-magic"],
+              "pages": ["message:dee-smiles"] },
+            { "id": "terrible-things-doing", "label": "action:dee-ask-terrible-things-doing", "categories": ["world"], "sets": ["dee-terrible-things"],
+              "pages": ["message:dee-warfare-economic", "message:dee-warfare-psychological"] }
+          ] },
+        { "id": "terrible-things", "label": "action:dee-ask-terrible-things", "categories": ["world"], "sets": ["dee-terrible-things"],
+          "pages": ["message:dee-warfare-economic", "message:dee-warfare-psychological"] }
+      ] },
+
+    { "id": "signup", "trigger": { "weekly": "@tuning.work.signup" }, "pages": [], "answers": "workDays" },
+
+    { "id": "check", "silent": true, "trigger": { "weekly": "@tuning.work.check" }, "pay": { "tally": "worked", "each": "@tuning.work.wagePerShift" } }
+  ]
+}

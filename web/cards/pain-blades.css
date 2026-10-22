@@ -1,0 +1,22 @@
+/* The ordinary straight card and its print stay intact. Blades are rooted
+   in its black walls; the mask follows the faces through the hold grid. */
+.choice > .pain-blade-art {
+  position: absolute; top: 0; left: 0; overflow: visible; z-index: 1;
+  pointer-events: none; animation: fade-in .7s ease both;
+}
+/* The visible front/right wall must sit behind its own mounted blade.
+   The SVG's face mask still hides blade portions behind the white squares. */
+.choice.hold-tiled > .pain-blade-art { z-index: 3; }
+.pain-blade { fill: #fff; stroke: #000; }
+.pain-blade-debris {
+  position: absolute; overflow: visible; pointer-events: none; z-index: 5;
+}
+.choice.blade-pain-card.locked .pain-blade { stroke: #999; }
+.choice.blade-pain-card:is(.selected, .taken) .pain-blade { fill: #000; stroke: #000; }
+.choice.blade-pain-card:is(.selected, .taken) > .pain-blade-art { transform: translate(3px, 3px); }
+.choice.blade-pain-card.entered:not(.taken):not(.fade-out) > .pain-blade-art { animation: none; }
+.choice.blade-pain-card.fade-out > .pain-blade-art { animation: fade-out .7s ease forwards; }
+.choice.raised-card.blade-pain-card.fade-out > .button[disabled] { color: #000; }
+.choice.blade-pain-card.taken > .pain-blade-art { animation: card-taken var(--taken-fade, 650ms) linear 40ms both; }
+#phone:is(.paused, .cards-covered) .pain-blade-art { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .choice > .pain-blade-art { animation: none !important; } }

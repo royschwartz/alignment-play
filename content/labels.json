@@ -1,0 +1,11 @@
+{
+  "_note": "Roy's explicit card markers, October 11 (decisions 260 and 262; lowercase correction in writing/feeds/2026-10-11-lowercase-card-markers.txt), preserved from writing/feeds/2026-10-11-text-cards-and-need-spread.txt. The neglect description was supplied explicitly in writing/feeds/2026-10-11-need-neglected.txt. The generic cooking description is from writing/feeds/2026-10-12-generic-descriptions.txt (276). \"pain\", in the descriptions when a pain card is pressed, is from writing/feeds/2026-10-13-pain-log-and-flash.txt (316).",
+  "labels": {
+    "card-pain": "[pain]",
+    "card-thought": "[thought]",
+    "card-need": "",
+    "need-neglected": "need neglected",
+    "home-cooked-meal": "you make a home cooked meal",
+    "pain-taken": "pain"
+  }
+}

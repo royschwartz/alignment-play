@@ -1,0 +1,14 @@
+{
+  "_note": "Where you can be. The name of the place you're in is the first line of the middle section's left side (Roy, October 11: \"location / activity / (mood)\"). Changing places takes no time and is never told (Roy, October 11, 228). **Only home is shown (Roy, Oct 15, 381):** \"right now the only setting where location is shown as home. other places we should just get the activity\". A place with `shown: true` has its name on the left; any other leaves the line blank and the activity shows alone. The names stay here for the diary and the checks. `open` is a place's hours; nothing happens there while it's closed. `person` is when PERSON is there: Roy's writing has them working at the library; the days and hours are provisional, each end up to `vary` minutes earlier or later, the same for a given day however often it's asked.",
+  "_names": "PROVISIONAL WORDS. Roy asked for a location line and hasn't supplied the names. These are Claude's, kept to the plainest everyday name for each place, and each one is built from a word already in his writing (\"returning home\", \"work at store\", \"visit library\", \"the food distro\", \"you wander into the woods\"); \"grocery store\" is from \"buy groceries\". They wait for his approval or rewording, except \"grocery store\", which he wrote himself on October 12 (268). An empty name shows nothing.",
+
+  "places": {
+    "home": { "name": "home", "shown": true },
+    "grocery-store": { "name": "grocery store", "open": [8, 21] },
+    "store": { "name": "store" },
+    "library": { "name": "library", "open": [10, 20], "person": { "days": [0, 2, 3, 4, 5, 6], "hours": [12, 19.5], "vary": 30 } },
+    "food-distro": { "name": "food distro", "open": [10, 16] },
+    "woods": { "name": "woods" },
+    "neighborhood": { "name": "neighborhood", "_note": "Going for a walk (Roy, Oct 18). Not shown (381); the name is for the diary." }
+  }
+}

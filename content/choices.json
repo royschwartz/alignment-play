@@ -1,0 +1,63 @@
+{
+  "_note": "The cards (Opus 5.5 version, October 11, 2026). Every label is one of Roy's manuscript action labels. The order here is their rank: when more than four could show, the earlier ones do, and a card already showing keeps its place. A card shows while its `when` holds and its activity could start now; you can take one while idle or during an interruptible activity such as TV. Expired cards fade out even during a busy task. `purpose`: a need is attached to an attribute, which gets worse while the need is ignored, and only one need shows at a time; the rest only differ in rank. `pain`: the card costs rapture, which becomes Choice (no levels). `does.activity` starts that activity; `does.thought` starts nothing and puts a description on the right. A card whose activity has become a habit stops coming (spec/opus-5.5-version.md#automation-is-earned). `once`: it never returns after it's been done. `notToday`: at most once a day. `cooldown`: story minutes before it can come back. Conditions and ranks are provisional.",
+
+  "choices": [
+    { "id": "frozen-dinner", "label": "action:dinner", "purpose": "need", "attached": "rapture",
+      "_when": "Cooking a meal negates this card (274): see `negates` in activities.json.",
+      "does": { "activity": "dinner" }, "when": { "stat": { "appetite": [50, null] } } },
+
+    { "id": "go-hole", "label": "action:go-hole", "purpose": "need", "attached": "rapture",
+      "_when": "Roy, Oct 18 (395): the hunger passage is removed; the second night's dream, ending in his italic \"i am hungry\", is what opens this card now (`heard-hungry`).",
+      "does": { "activity": "hole-trip" },
+      "when": { "facts": ["heard-hungry"], "stat": { "hunger": ["@storyRules.hungryAt", null] }, "stock": { "portions": 1 }, "hours": [7, 21] } },
+
+    { "id": "watch-sunset", "label": "action:watch-sunset", "purpose": "step", "once": true, "marks": ["peaceful"],
+      "_marks": "Roy, Oct 13: the sunset \"should happen in a low intensity environment\"; so it waits while you're agitated (392, provisional).",
+      "_note": "Roy, Oct 13 (357): \"for sunset you have to make the choice watch the sunset, then that description almost immediately plays\"; \"no inter title just description\". `says`: taking it starts nothing; its description is told at once. It's there in the evening at home until it's been watched, the first day or a later one (350), and ranks above the errands so there's room for it. Watching opens observing and thinking, as the sunset did.",
+      "does": { "says": "log:sunset", "sets": ["sunset-color"] },
+      "when": { "place": "home", "hours": ["@scheduledEvents.0.hour", 21], "notFacts": ["sunset-color"] } },
+
+    { "id": "cook", "label": "action:cook", "purpose": "errand", "atOnce": true, "_atOnce": "Roy, Oct 21 (411): \"add a cook a meal immediately after groceries are bought and dishes cleaned\": it comes the minute it can, without waiting for the deal (tuning.json `cards`).", "does": { "activity": "cook" } },
+
+    { "id": "leftovers", "label": "action:eat-leftovers", "purpose": "errand", "does": { "activity": "leftovers" },
+      "_when": "Roy, Oct 18 (388): \"you don't want to eat if you're not psyiologically hungry\": the frozen dinner card's appetite.",
+      "when": { "stat": { "appetite": [50, null] } } },
+
+    { "id": "groceries", "label": "action:groceries", "purpose": "errand", "does": { "activity": "groceries" },
+      "when": { "any": [{ "stockAtMost": { "portions": 2 } }, { "stockAtMost": { "frozen": 0 } }] } },
+
+    { "id": "dishes", "label": "action:dishes", "purpose": "errand", "pain": 1, "does": { "activity": "dishes" } },
+
+    { "id": "clean", "label": "label:card-clean-the-house", "purpose": "errand", "pain": 1, "notToday": true, "marks": ["strenuous"], "does": { "activity": "clean" } },
+
+    { "id": "fix-plate", "label": "action:fix-serving-plate", "purpose": "step", "pain": 1, "once": true,
+      "_back": "Roy, Oct 15 (379): \"fixing the microwave plate can come back (after it clanks)\": once the frozen dinner's description says the plate clanks (`plate-clanks`).",
+      "does": { "activity": "fix-plate" }, "when": { "facts": ["plate-clanks"] } },
+
+    { "id": "walk", "label": "label:card-go-for-a-walk", "purpose": "step", "cooldown": 240,
+      "_when": "Roy, Oct 18: \"If you're agitated you may want to go for a walk\". It comes while you're really agitated or restless (the true mood, 393), whatever the word says.",
+      "does": { "activity": "walk" }, "when": { "mood": ["agitated", "restless"] } },
+
+    { "id": "exercise", "label": "label:card-exercise", "purpose": "impulse", "pain": 1, "cooldown": 360, "marks": ["strenuous"],
+      "_note": "Roy, Oct 18 (391): \"exercise (pain card)\".", "does": { "activity": "exercise" } },
+
+    { "id": "tv", "label": "action:tv", "purpose": "impulse", "cooldown": 120,
+      "_back": "Roy, Oct 15 (379): \"tv can stay\".",
+      "does": { "activity": "tv" }, "when": { "hours": [18, 26] } },
+
+    { "id": "couch", "label": "action:lie-on-couch", "purpose": "impulse", "cooldown": 240, "does": { "activity": "couch" } },
+    { "id": "beer", "label": "label:card-have-a-beer", "purpose": "impulse", "cooldown": 180, "does": { "activity": "beer" } },
+    { "id": "magazine", "label": "label:card-read-a-magazine", "purpose": "impulse", "cooldown": 240, "marks": ["peaceful"], "does": { "activity": "magazine" } },
+    { "id": "radio", "label": "label:card-listen-to-the-radio", "purpose": "impulse", "cooldown": 240, "does": { "activity": "radio" } },
+    { "id": "notebook", "label": "label:card-write-in-a-notebook", "purpose": "impulse", "cooldown": 240, "marks": ["peaceful"], "does": { "activity": "notebook" } },
+    { "id": "tape", "label": "label:card-watch-a-tape", "purpose": "impulse", "cooldown": 360, "does": { "activity": "tape" } },
+    { "id": "nintendo", "label": "label:card-play-the-old-nintendo", "purpose": "impulse", "cooldown": 240, "does": { "activity": "nintendo" } },
+    { "id": "music", "label": "label:card-listen-to-music", "purpose": "impulse", "cooldown": 240, "does": { "activity": "music" } },
+    { "id": "guitar", "label": "label:card-play-the-guitar", "purpose": "impulse", "cooldown": 240, "marks": ["peaceful"], "does": { "activity": "guitar" } },
+    { "id": "novel", "label": "label:card-read-a-novel", "purpose": "impulse", "cooldown": 240, "marks": ["peaceful"], "does": { "activity": "novel" } }
+  ],
+
+  "_opening": "The opening's activities at home (Roy, Oct 18, 388-392). Impulses come in a different order each day (a seeded shuffle; engine/sim.mjs, `dealOrder`), so the four places aren't always taken by the same ones. `marks` say how a card feels to do; the mood you're really in holds some marks back (tuning.json `moods`). Cooldowns provisional.",
+
+  "_retired": "Roy, Oct 15 (370, 373, 375): every other card retired with its activity, and the think card with \"think card will be removed. thoughts take the form of italics from now on\". The cards for leftovers, breakfast, observing, the library, studying markets, the food distro, the bath, thought: bills, thinking and the joint are kept as they were in retired.json, which the engine never reads. Fixing the serving plate (after it clanks) and tv came back the same day (379). The sunset still sets the fact it did; nothing reads it until introspection's first activities come (spec/activities.md)."
+}

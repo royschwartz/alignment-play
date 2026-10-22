@@ -1,0 +1,17 @@
+{
+  "_source": "writing/feeds/2026-09-27-your-dirty-house.md: the THINK alternatives at [YOUR DIRTY HOUSE], split at Roy's `::`. Text is exactly as pasted, except the correction Roy asked for in that session (\"you are child\" -> \"you are a child\"). The [MOTHER] tag is kept as a thread, not shown. The last alternative is empty in the paste and stays empty. `reveals` (which psyche entry a thought can uncover) is provisional tuning. `bills` is not from the feed: it's the description for the thought card \"thought: bills\", empty until Roy writes it (Oct 7: \"I'll provide those for you\"); the card doesn't form while it's empty.",
+  "thoughts": [
+    { "id": "house-think-01", "text": "you pace for a while. your thoughts are scattered" },
+    { "id": "house-think-02", "text": "you sit on your couch and are consumed by anxious thoughts", "reveals": "anxiety" },
+    { "id": "house-think-03", "text": "you start thinking about the woods and recoil", "reveals": "attachment" },
+    { "id": "house-think-04", "text": "there is a memory around you. you feel at once you are a child and shudder" },
+    { "id": "house-think-05", "text": "a laugh, echoing from some distant place" },
+    { "id": "house-think-06", "text": "why do you accept being so alone?", "reveals": "loneliness" },
+    { "id": "house-think-07", "text": "you wish your computer was fixed" },
+    { "id": "house-think-08", "text": "one time someone asked you if you had any skills" },
+    { "id": "house-think-09", "text": "your house is in foreclosure", "reveals": "dread" },
+    { "id": "house-think-10", "text": "a voice, strong and wise, coming from the kitchen", "thread": "MOTHER" },
+    { "id": "house-think-11", "text": "" },
+    { "id": "bills", "text": "" }
+  ]
+}

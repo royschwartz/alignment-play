@@ -1,0 +1,71 @@
+/* A continuous triangular prism along each diagonal, interrupted only by
+   the lettering's clear zone. Its narrow crest breaches the paper first. */
+.choice .pain-spikes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--card-face-width, calc(100% - 3px));
+  height: var(--card-face-height, calc(100% - 3px));
+  transform-style: preserve-3d;
+  pointer-events: none;
+  --ridge-dark: #000;
+  --ridge-light: #fff;
+}
+.pain-ridge {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateZ(var(--ridge-angle)) translateZ(0);
+  animation: pain-ridge-breach 650ms cubic-bezier(.22, .6, .36, 1) 700ms both,
+    pain-ridge-reveal 700ms step-end both;
+}
+.pain-ridge-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--ridge-length);
+  height: var(--ridge-slant);
+  background: var(--ridge-dark);
+  transform-origin: 0 0;
+  /* Opacity belongs on each plane, keeping the 3D ridge unflattened. */
+}
+.pain-ridge-front {
+  transform: translateZ(var(--ridge-height)) rotateX(var(--ridge-slope));
+}
+.pain-ridge-back {
+  background: var(--ridge-light);
+  transform: translate3d(var(--ridge-length), 0, var(--ridge-height)) rotateZ(180deg) rotateX(var(--ridge-slope));
+}
+.pain-ridge-start, .pain-ridge-end {
+  width: var(--ridge-base);
+  height: var(--ridge-height);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transform: translate3d(0, calc(var(--ridge-base) * -.5), var(--ridge-height)) rotateY(-90deg) rotateZ(90deg);
+}
+.pain-ridge-end {
+  transform: translate3d(var(--ridge-length), calc(var(--ridge-base) * -.5), var(--ridge-height)) rotateY(-90deg) rotateZ(90deg);
+}
+.pain-ridge-settled { animation: none; }
+.choice:is(.held, .hold-tiled) .pain-spikes { visibility: hidden; }
+/* Override the reveal animation's explicit visibility during a hold. */
+.choice:is(.held, .hold-tiled) .pain-ridge { visibility: hidden !important; }
+.choice.selected .pain-spikes {
+  --ridge-dark: #fff;
+  --ridge-light: #000;
+}
+.choice.fade-out .pain-ridge-face { animation: fade-out .7s ease forwards; }
+.choice.taken .pain-ridge-face { animation: card-taken var(--taken-fade, 650ms) linear 40ms both; }
+#phone.cards-covered #choices .choice:not(.taken):not(.fade-out) :is(.pain-ridge, .pain-ridge-face) { animation-play-state: paused; }
+@keyframes pain-ridge-breach {
+  from { transform: rotateZ(var(--ridge-angle)) translateZ(calc(-1 * var(--ridge-height) - .2px)); }
+  to { transform: rotateZ(var(--ridge-angle)) translateZ(0); }
+}
+/* The submerged ridge stays hidden until the paper finishes fading in. */
+@keyframes pain-ridge-reveal {
+  from { visibility: hidden; }
+  to { visibility: visible; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .choice .pain-ridge, .choice .pain-ridge-face { animation: none !important; }
+}

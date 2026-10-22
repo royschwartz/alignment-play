@@ -1,0 +1,167 @@
+{
+  "_note": "Opus 5.5 version, October 11, 2026. Every number here is provisional (Claude's) unless spec/decisions-log.md says otherwise. Numbers Roy already wrote (starting money and disquiet, food stocks, the sleep and shift hours, what each action does to rapture, how long it takes) are read from his manuscript and are not repeated here.",
+
+  "start": { "year": 1997, "month": 4, "day": 3, "hour": 14 },
+
+  "meters": {
+    "_note": "The five attributes the screen shows, then what the character carries inside, which is never shown. disquiet and money start from the manuscript. Roy, Oct 18 (391, 393): anger is a feeling inside, like anxiety; it brings on the agitated mood and fades by itself. reflection is the self-reflection skill: introspective activities raise it, and the more there is, the likelier you recognize your mood. Both start at nothing (provisional). Rapture starts at 5 (Roy, Oct 21, 413: \"start w 5 rapture\"; it was 36).",
+    "rapture": 5, "hunger": 16, "choice": 38,
+    "appetite": 55, "tiredness": 35, "grime": 40, "mess": 60, "loneliness": 60, "restlessness": 30, "anxiety": 40,
+    "anger": 0, "reflection": 0
+  },
+
+  "drift": {
+    "_note": "Per story hour, whatever you're doing.",
+    "awake": { "appetite": 4, "tiredness": 4, "grime": 0.6, "mess": 0.2, "loneliness": 0.5, "restlessness": 1.5, "anxiety": 0.8, "anger": -12 },
+    "asleep": { "appetite": 1.5, "tiredness": -13, "grime": 0.3, "loneliness": 0.2, "restlessness": -1, "anxiety": -1.5, "anger": -30 }
+  },
+  "hungerRisePerHour": 0.9,
+  "dirtyAt": 30,
+  "drain": { "_note": "Rapture lost per story hour for each point of disquiet and of hunger, before `raptureScale`.", "disquietPerHour": 0.0416667, "hungerPerHour": 0.0166667 },
+  "raptureScale": 0.1,
+  "_raptureScale": "Roy, Oct 21 (413): \"i want to scale down rapture significantly at the start. start w 5 rapture. events like cook a meal should only give you +1, so gaining and losing should be slower\". Every change to rapture is this much of what's written: in Roy's manuscript (a cooked meal's 3 an hour and 5 after, about 10, now about 1), in content and here (pain, a neglected need, feeding the hole, the drains, every rate and lingering effect). What rapture is at (where it starts, where a reset brings it back, a mood's line) is written at the new size. Choice is unchanged: rapture given up to pain still becomes 1 Choice. The screen's trickles count in the written sizes, so they look as they did (web/app.mjs). Claude's, provisional: a tenth, so the meal is +1 (open question 211).",
+
+  "flow": {
+    "_note": "Roy, Oct 11: \"we have to move to model where these attributes drain or increase slowly\", then \"no money goes a lot at once- disquiet and rapture can acuumulate or drain quickly OR very slowly. rapture should always be moving\". What happens to disquiet, rapture, hunger or choice never lands at once: it arrives evenly over two story hours by default, starting with the experience. Explicit `quick` or `slow` entries retain their own rates. `linger` is 120 story minutes; `default` is which, unless an entry in content sets its own `flow` (\"quick\", \"slow\" or a number of minutes). Very slow change is also what the hourly rates are: the drains, idling and sleep. Neglected needs taper to zero over three story hours (Roy, Oct 14; exact duration provisional). A reset's arrives over the reset itself. Money changes at once.",
+    "quick": 30, "linger": 120, "slow": 360, "default": "linger"
+  },
+
+  "reset": { "floor": 0, "threshold": 1.2, "_threshold": "Where a reset brings rapture back to: 12 until Oct 21, a tenth of it since `raptureScale` (provisional).", "disquietDrop": 1, "choiceLoss": 1 },
+
+  "habits": {
+    "_note": "Automation is earned (spec/opus-5.5-version.md). An activity marked `habit` becomes automatic once you've chosen it and finished it this many times; from then on it happens by itself when its `habit.when` holds, at its usual cost, and its card stops coming.",
+    "after": 3
+  },
+
+  "cards": {
+    "_note": "At most `max` cards, one need at a time. Pain costs `painRapture` rapture, which becomes Choice. A need stain fills over `neglect.minutes` story minutes while the card can be taken. At full coverage, expire the appearance, hide its text and fade its black face, show `neglect.description` once, and grant one rapture loss over `neglect.drainMinutes` (Roy, Oct 14: a few hours; provisionally 180 minutes with a declining rate). Removing the card cancels unfinished growth. These numbers are provisional. `returns`: story minutes before a taken card can come back.",
+    "max": 4, "errands": 2, "_errands": "At most this many errands show at once, so the opening's other things have room (Roy, Oct 18, 388-390; provisional).", "painRapture": 1, "returns": 30,
+    "_deal": "Roy, Oct 18 (400): \"new options shouldn't immediately come once a choice is made\", \"They should come less frequently, so you have to choose carefully\". Once you take a card, no card that isn't already showing comes for `afterChoice` story minutes, then one at a time, `every` story minutes apart. Both count only the minutes you could choose in, as a need's stain does: not while what you chose holds the cards, while you're away or while a page covers the screen. Taking another card starts the wait again. A need comes when it does. Before the first choice the opening's cards are all there (engine/sim.mjs, updateCards). Numbers are Claude's, provisional (open question 204). Since Oct 21 (414) how long it waits depends on how many cards are showing: `_dealAfter`.",
+    "deal": { "after": { "0": 2, "1": 15, "2": 45, "3": 60 } },
+    "_dealAfter": "Roy, Oct 21 (414): \"when there are no choices on the screen, the chance of choice coming should be significantyly increased such that there should be seldom only one choice to make\", \"w 2/3 choices the choices come slower\". `after`: free story minutes before the next card comes, by how many cards are showing then, counted from your last choice or the last card that came; with four, none comes. It replaces `afterChoice` 60 and `every` 30. Claude's, provisional (open question 212): 2 with none (5 until Roy saw that could take longer in real seconds than one card's 15, 415), 15 with one, 45 with two, 60 with three; one card at a time; a set wait, not a chance.",
+    "opening": 3, "_opening": "Roy, Oct 21 (410): \"remove ... the 4th option at the start\". Before your first choice at most this many cards show: the frozen dinner, the groceries and the dishes. The things you might feel like doing come afterwards, when the deal brings them (`deal`).",
+    "_atOnce": "Roy, Oct 21 (411): \"add a cook a meal immediately after groceries are bought and dishes cleaned\". A card marked `atOnce` in choices.json comes the minute it can, as a need does, without waiting for the deal.",
+    "formation": {
+      "_note": "Roy, October 12: remove font fade-in for all cards; letter formation will be a special case. Every current card has complete text immediately. The retained explicit formation: slow method takes a provisional 12–20 story minutes, deterministically varied per appearance; no current choice opts in. Only eligible, unlocked minutes count for that method, activity holds freeze it, and clicking reveals all lettering and takes the action.",
+      "minMinutes": 0, "maxMinutes": 0,
+      "slow": { "minMinutes": 12, "maxMinutes": 20 }
+    },
+    "neglect": { "minutes": 120, "rapture": 1, "drainMinutes": 180, "curve": "ease-out", "description": "label:need-neglected" },
+    "_recede": "Roy, Oct 6: \"sometimes a choice starts fading out ... a choice starts fading eg when you want to go to the library but it is getting late\"; Oct 14: \"cards fading I think was removed. that's the final element ... them receding gives uses a natural indication of how long they will last\", then, with a sketch of a quarter-round curve, \"make this a curve so the last 8% go by pretty fast but it's smooth all the way through\". Over the last `minutes` story minutes before a card's last chance (its own hours, its activity's hours and place, the time it needs before the next shift) it fades along his curve, |x|^n + |y|^n = 1 with n `roundness` (2.5 fits the sketch to within 0.3%), and from `finish` on in a straight line at the same slope, reaching nothing at the last chance (web/cards/recede.mjs). A card that comes later than that fades over what's left. Provisional: 90 minutes; finish at 30%, where the last 8% takes about 1.2 story minutes and no frame drops more than 14% at the fastest clock.",
+    "recede": { "minutes": 90, "roundness": 2.5, "finish": 0.3 },
+    "_painDescription": "Roy, Oct 13 (316): \"after you press a pain card you should see in the log 'pain'\"; \"sometimes it will be accompanied by a description\". Shown in the descriptions the moment a pain card or a pain answer is pressed. The clock doesn't slow for it (provisional).",
+    "painDescription": "label:pain-taken"
+  },
+
+  "tell": {
+    "_note": "How often descriptions come. A first time always tells. Otherwise each chance is scaled by `density`, never sooner than `minGapMinutes` after the last one, and it lands between these fractions of the activity's length.",
+    "density": 0.6, "minGapMinutes": 30, "firstAt": [0.25, 0.6], "keep": 40,
+    "_closing": "Roy, Oct 13 (314-315): an activity clears a short time after the description at its end, \"on a time basis, which could correspond to roughly 3 seconds in the game\"; \"don't use per real time second, use game time for these\". The description at the end of an activity comes this many story minutes before it's over. A new description is read at a minute a tick (pace), so that's about three seconds.",
+    "closing": 3
+  },
+
+  "sleep": {
+    "_note": "Bed and waking hours are the manuscript's. You go to bed after `bedHour` once tired enough, or whenever exhausted. Asleep, a mood shows only in light sleep.",
+    "tiredEnough": 30, "exhausted": 92, "lateHour": 25, "wakeBeforeShift": 75, "firstNightFails": true,
+    "lightStartMinutes": 60, "lightEndMinutes": 90
+  },
+
+  "work": {
+    "activity": "shift", "wagePerShift": 36, "firstShiftDays": [1],
+    "signup": { "weekday": 0, "hour": 18 }, "check": { "weekday": 5, "hour": 16 },
+    "workdays": [1, 2, 3, 4, 5, 6]
+  },
+
+  "hole": { "feedRapture": 3, "relief": "slow" },
+  "hungerVoice": {
+    "_note": "The dweller's hunger, in its own voice: italic lines in the descriptions, never intertitles (Roy, Oct 18, 396: \"so these - to be clear , are the new hunger descriptions you get\", \"in italics in the log, now you get them in the log not intertitles\"; feed writing/feeds/2026-10-18-the-dwellers-hunger.txt). They come only after the second dream (`after`), while you're awake and nothing covers the screen, one at a time in this order, each once while the hunger lasts, at least `tell.minGapMinutes` after the one before and never in the same minute as another description, without holding back the activity's own. Each waits for its `hunger` and for the one before it, so \"you're feeding the wrong stomach (this message plays first)\" always does; it comes when the hole card can (`storyRules.hungryAt`, 22). Roy, the same day: \"you know what you have to do\" (the removed passage's last line) \"can also be one - the first time you go back to the hole\": it comes next, only until you've first gone back to the hole (Claude's reading, provisional). A line whose `when` doesn't hold when its turn comes is passed over. `lead` is said before the line, in one line: his four bullets under \"i'm hungry,\" (\"i'm hungry -\" in his first draft) each finish that sentence, in his order. When hunger falls below the first `hunger` (feeding the hole), it starts over. The marks are provisional (open question 190).",
+    "after": "heard-hungry",
+    "lines": [
+      { "ref": "message:dweller-wrong-stomach", "hunger": 22 },
+      { "ref": "message:hunger-know", "hunger": 22, "when": { "countBelow": { "hole-trip": 1 } } },
+      { "lead": "message:dweller-hungry", "ref": "message:dweller-not-good", "hunger": 35 },
+      { "lead": "message:dweller-hungry", "ref": "message:dweller-cruel", "hunger": 45 },
+      { "lead": "message:dweller-hungry", "ref": "message:dweller-do-something", "hunger": 55 },
+      { "lead": "message:dweller-hungry", "ref": "message:dweller-not-much-longer", "hunger": 65 },
+      { "ref": "message:dweller-going-to-die", "hunger": 75 },
+      { "ref": "message:dweller-dying", "hunger": 85 },
+      { "ref": "message:dweller-help", "hunger": 95 }
+    ]
+  },
+  "groceries": { "frozenRestock": 7, "beerRestock": 6, "_beerRestock": "Beer for having a beer (Roy, Oct 18, 388) comes home with the groceries, up to a six-pack, in the same $50 (provisional)." },
+  "stocks": { "beer": 6, "_note": "Stocks the manuscript doesn't give: a six-pack in the fridge at the start (provisional)." },
+
+  "attributeLines": {
+    "disquiet": "message:attribute-disquiet", "rapture": "message:attribute-rapture", "hunger": "message:attribute-hunger",
+    "money": "message:attribute-money", "choice": "message:attribute-choice"
+  },
+  "_attributeLines": "Roy, Oct 21 (416): \"when you click on disquiet / disquiet slowly drains rapture - is shown in log, and so on\", with a line for each of the five (writing/feeds/2026-10-21-clicking-the-attributes.txt). Clicking an attribute's word says its line in the descriptions (engine/sim.mjs, `inspect`). Provisional, Claude's: the clock doesn't slow for it; it isn't said again while it's the newest line; nothing while an event covers the screen.",
+
+  "openingLine": null,
+  "_openingLine": "The line life begins with on the right, as a reference into Roy's writing. Roy, Oct 21 (410): \"remove you are sitting in your outdoor clothes\": none. His line stays in the manuscript (`log:opening`); naming it here would bring it back.",
+
+  "pace": {
+    "_note": "How many story minutes a tick of the clock is (web/pace.mjs; spec/opus-5.5-version.md#time). Roy, Oct 12 (267): \"the key thing about this game is controlling time\"; \"if there are 4 decisions it slows to 1 minute per tick . 3 decisions is 2 minutes per tick , 2 decisions is 1 per 5\"; with none \"time goes increasingly fast\", from his 15 minutes a tick (266); \"if there are descritions added, time slows down so you can read them\". The clock keeps one beat, `tick.perSecond`: the one number that sets the whole pace. Roy, Oct 12 (270): \"pace should be half what it is\", so it's 1 (it was 2). `tick.decisions`: minutes a tick by how many cards can be taken; 4, 3 and 2 are his, 1 is provisional. `tick.none`: with no decision, each size for `ticksEach` ticks and the last for as long as it lasts; 15 is his, the rest provisional. `tick.reading`: while a new description is being read, for `readBase` seconds plus `readPerChar` for each character, never less than `readMin` (Roy, Oct 12, 271: \"an event always persists after description is given , give it at least 5 seconds\") and at most `readMax` (provisional); its activity never ends within that time. Every activity stays on screen at least `minActivitySeconds`. `tick.grow`: Roy, Oct 12 (292): \"in general speed up should happen slowly\"; \"time can slow down fast though\". A tick is never more than this many times the tick before it, in whole minutes (from 1: 2, 3, 5, 8, 12, 15), and it gets smaller at once; the number is provisional. Roy, Oct 13 (315): \"don't use per real time second, use game time for these\". `readMin`, `readBase`, `readPerChar` and `readMax` are story minutes: a new description is read for the story minutes after it's given, at `tick.reading`. An activity ends when its story minutes do; the description at its end comes `tell.closing` story minutes before that. `minActivitySeconds` is the one number here still in real seconds (provisional). Roy, Oct 14 (360): \"steps should be 2, 3, 5, 8, 12, 18, 30 , I think that's a good slope. this can apply to everything\", \"30 is the fastest\". `tick.ladder` is the only sizes a tick is: the clock climbs through them one at a time, and every size above is one of them (provisional, Claude's: reading 2, the minimum asked for; 4, 3, 2, 1 cards 2, 3, 5, 8, the 5 given kept; none 12, 18, 30), the fastest anything goes in a second is its last (30), the quiet part of a held activity included. `tick.grow` only applies past the last step. `readMin` stays 5 story minutes, which at 2 minutes a tick is 2.5 seconds. Roy, Oct 14 (362): \"after any choice remains static for 5 ticks begin incrementing\"; \"this wouldn't apply to a message is read but applies to choices that appear\"; \"if a 4th card appears, reset to 2, 2, 2, 2, 2, 3, 5, 8, 12, 18, 30\". `settle` is those 5 ticks. `decisions` is no longer how fast time goes with that many cards but the size a new choice slows time to (provisional, Claude's reading: 4 cards is 2, as Roy said); after `settle` ticks it climbs the steps to 30 whatever the cards. `none` (12, 18, 30 with no card) is gone: with nothing to choose it just climbs. Roy, Oct 14 (364): \"messages trigger no hold\"; \"when it comes to tick hold it should immediately start climbing and pause at the level of the tick hold if applicable\"; \"if a message occurs during a 2 tick hold it will just stay there. If it occurs during a 3 tick hold, it will go back to 2 and pause at 3\". A message is one tick of `reading` (2), then the clock climbs; `readMin`, `readBase`, `readPerChar` and `readMax` (how long a message held time at the smallest tick, 271) are gone. While a choice is held, time climbs no higher than its size. Roy, Oct 14 (365): \"now it suddenly became way too fast because of the ramp\"; \"the max speed when you have choices out should be held at: with 4 cards it won't go beyond 5, with 3 cards it won't go beyond 10, with 2 cards it won't go beyond 15\". `most` is that, by how many cards can be taken; 1 card 20 is provisional, Claude's (the same 5 more a card less). With none, 30. Roy, Oct 14 (366): \"ok let's hold at 2/3/5/8 for 4 cards, 3 etc respectively - don't increase\"; \"this doesn't apply if there's an activity lock\". So `most` is the same as `decisions` now: with cards that can be taken, time stays at their size. When an activity holds the cards (a task), none can be taken, and time climbs to 30.",
+    "tick": {
+      "perSecond": 1,
+      "grow": 1.5,
+      "ladder": [2, 3, 5, 8, 12, 18, 30],
+      "reading": 2,
+      "settle": 5,
+      "decisions": { "1": 8, "2": 5, "3": 3, "4": 2 },
+      "most": { "1": 8, "2": 5, "3": 3, "4": 2 }
+    },
+    "minActivitySeconds": 2,
+    "speed": {
+      "_note": "How fast the clock plays a tick, against its beat (web/pace.mjs, `speed`). Roy, Oct 21 (408): \"I want you to slow the game down by 50% during shorter ticks (game time passing) and 0% during the longest ticks if that makes sense\". `normal`: at the first step of the ladder (2), then at the last (30); in between by how far up the steps the size is, each step taking away about as much of the slowing (provisional, Claude's). The quiet part of a held activity is played the same way, by the minutes it goes a beat. Roy, Oct 21 (409): \"add an accelerate button that increases speed by 300% during shortest ticks and 200% during long\", \"accelerate is no button, just something to the left of pause 'the word accelerate'\". `accelerated`: how many times faster than `normal` while it's on, at the first step and at the last, the same way in between (provisional: \"300%\" read as 3 times, \"200%\" as 2).",
+      "normal": [0.5, 1],
+      "accelerated": [3, 2]
+    }
+  },
+
+  "numbers": {
+    "_note": "How the numbers at the top move (web/number-chase.mjs; spec/opus-5.5-version.md, \"The numbers\"). Roy, Oct 19 (402): \"this should not be game time dependent but real time dependent. the player should not see massive shifts and accelerations. rather we have an internal number which all the numbers are always heading towards. the internal number is hidden from the player. how fast it moves should be realtive to the total you have of any number. eg if you 20 rapture, at most you can lose 5% of it per second. the numbers will slow  as you approach the optimum. keep thing at 5%\". `share`: the most a number moves in a real second, as a part of what you have (his 5%); what you have is the larger of the shown and the hidden number, so a loss is 5% of what you had and a gain 5% of what you'll have (provisional). `ease`: near the hidden number it slows, closing about two thirds of what's left each `ease` real seconds (provisional). `least`: a number under this moves as if it were this much, so nothing stalls at zero (provisional). Pause and the menu stop it; an intertitle doesn't (provisional).",
+    "share": 0.05,
+    "ease": 1,
+    "least": 1
+  },
+
+  "marks": ["peaceful", "strenuous"],
+  "_marks": "How a card feels to do (Roy, Oct 18, 392: \"when you're agitated you may get choices like violent activities , and not relaxed contemplative one\", \"this shoudl apply to all moods\"; then \"no violent activities yet, just preclude ones that require peacefulness, like reading\"). A card has marks (`marks` in choices.json); a mood `holds` the marks of the cards that don't come while you're in it. Never shown. peaceful: it needs a calm mind (reading, writing, the guitar, the sunset). strenuous: hard on the body (exercise, cleaning the house). Provisional, Claude's.",
+
+  "moodReading": { "unsure": "label:uncertain", "base": 0.25, "perReflection": 0.07, "most": 0.95,
+    "_note": "Roy, Oct 18 (393): \"as you develop your self reflection skill your ability to ascertain mood increases, eg at the start you get a lot of mood: uncertain\". When the true mood changes you recognize it with a chance of `base` plus `perReflection` for each point of reflection, at most `most`; otherwise the mood reads `unsure`. A mood marked `plain` (of the body) is always recognized. Numbers provisional." },
+
+  "moods": [
+    { "_note": "Shown in parentheses under the activity. The first that fits shows; if none fits, there's no mood. happy, content and troubled are Roy's words; the rest are Claude's plain mood words written at his request on October 7 and waiting for his approval. Roy, October 11: \"don't use gloomy anymore\", so it's gone. When each shows is provisional. Relaxed, cheerful and curious came only with activities that retired on October 15 (370), and focused came with studying markets and fixing the plate, which came back (379); their rules are kept in retired.json, and the words stay in writing/labels.json." },
+    { "label": "label:agitated", "when": { "asleep": false, "stat": { "anger": [40, null] } }, "holds": ["peaceful"],
+      "introduce": ["message:agitated-ball", "message:agitated-quiver"],
+      "_note": "Roy, Oct 18 (391): exercise \"can bring on anrgy emotion which gets you into a agitated state - initially this will be accompanied by an intertitle\": his two pages, the second with \"agitated\" in bold beneath. 392: \"preclude ones that require peacefulness, like reading\". Anger at 40 or more (provisional)." },
+    { "label": "label:restless", "when": { "sleep": "light", "stat": { "anxiety": [50, null] } } },
+    { "label": "label:troubled", "when": { "sleep": "light", "stat": { "anxiety": [38, null] } } },
+    { "label": "label:calm", "when": { "sleep": "light", "stat": { "anxiety": [null, 20] } } },
+    { "label": "label:content", "when": { "sleep": "light" } },
+    { "label": "label:exhausted", "when": { "asleep": false, "stat": { "tiredness": [85, null] } }, "plain": true, "holds": ["strenuous"] },
+    { "label": "label:miserable", "when": { "asleep": false, "stat": { "rapture": [null, 0.5] } }, "_when": "Rapture at 5 or below until Oct 21; a tenth of it since `raptureScale`, so you don't start miserable at 5 (provisional)." },
+    { "label": "label:hungry", "when": { "asleep": false, "any": [{ "facts": ["heard-hungry"], "stat": { "hunger": [60, null] } }, { "stat": { "appetite": [75, null] } }] }, "plain": true },
+    { "label": "label:nervous", "when": { "doing": ["shift"], "stat": { "anxiety": [25, null] } } },
+    { "label": "label:focused", "when": { "doing": ["fix-plate"] } },
+    { "label": "label:anxious", "when": { "asleep": false, "stat": { "anxiety": [50, null] } } },
+    { "label": "label:happy", "when": { "asleep": false, "netRateAbove": 0.5 } },
+    { "label": "label:troubled", "when": { "asleep": false, "stat": { "disquiet": [5, null] } } },
+    { "label": "label:lonely", "when": { "asleep": false, "stat": { "loneliness": [67, null] } } },
+    { "label": "label:tired", "when": { "asleep": false, "stat": { "tiredness": [55, null] } }, "plain": true, "holds": ["strenuous"] },
+    { "label": "label:restless", "when": { "asleep": false, "stat": { "restlessness": [45, null] } } },
+    { "label": "label:sad", "when": { "asleep": false, "netRateBelow": -2 } },
+    { "label": "label:worried", "when": { "asleep": false, "stat": { "anxiety": [42, null] } } },
+    { "label": "label:bored", "when": { "idle": true, "stat": { "restlessness": [30, null] } } },
+    { "label": "label:calm", "when": { "asleep": false, "stat": { "anxiety": [null, 12], "restlessness": [null, 20] } } },
+    { "label": "label:content", "when": { "asleep": false, "netRateAbove": -0.1, "stat": { "anxiety": [null, 30] } } }
+  ],
+
+  "interface": {
+    "_note": "Neutral controls only (AGENTS.md). Narrative words always come from Roy's writing.",
+    "pause": "pause", "resume": "resume", "menu": "menu", "restart": "restart", "accelerate": "accelerate",
+    "lockReasons": { "choice": "not enough choice", "money": "not enough money" }
+  }
+}

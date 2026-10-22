@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="only light">
+  <title>Alignment</title>
+  <link rel="stylesheet" href="web/style.css">
+  <link rel="stylesheet" href="web/wheel.css">
+</head>
+<body>
+<div id="frame">
+  <main id="phone" data-phase="loading">
+
+    <header id="status">
+      <div id="attributes"></div>
+    </header>
+
+    <!-- The middle section (Roy, Oct 11): on the left where you are, what
+         you're doing and the mood; on the right two thirds, the descriptions. -->
+    <section id="now" aria-label="now">
+      <div id="now-left">
+        <div id="clock">
+          <div id="date"></div>
+          <div id="time"></div>
+        </div>
+        <div id="place"></div>
+        <div id="activity"></div>
+        <div id="mood"></div>
+      </div>
+      <div id="now-right">
+        <div id="locks" role="status" hidden></div>
+        <div id="stream" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section id="choices" aria-label="decisions"></section>
+
+    <footer id="pause-bar">
+      <button id="accelerate" type="button" aria-pressed="false"></button>
+      <button id="pause" type="button"></button>
+      <button id="menu" type="button" aria-haspopup="true" aria-expanded="false"></button>
+    </footer>
+
+    <section id="menu-panel" hidden>
+      <button id="restart" type="button" class="button"></button>
+    </section>
+
+    <section id="event" class="cover" hidden>
+      <div id="event-lock-reason" role="status" hidden></div>
+      <div class="cover-text" id="event-text"></div>
+      <div class="cover-text cover-mood" id="event-mood" hidden></div>
+      <div class="cover-answers" id="event-answers"></div>
+      <div class="cover-hint" id="event-hint"></div>
+    </section>
+
+    <section id="intro" class="cover" hidden>
+      <button id="skip" type="button" class="quiet"></button>
+      <div class="cover-text" id="intro-text"></div>
+      <div class="cover-answers" id="intro-answers"></div>
+      <div class="cover-hint" id="intro-hint"></div>
+    </section>
+
+  </main>
+</div>
+<script type="module" src="web/app.mjs"></script>
+</body>
+</html>

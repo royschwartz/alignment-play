@@ -1,0 +1,25 @@
+/* One shaped face, with the original accessible button and unchanged text
+   layout above it. The hold renderer takes this same outline into its grid. */
+.choice.wave-card > .wave-surface {
+  position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none;
+  animation: fade-in .7s ease both;
+}
+.wave-side { fill: #000; }
+.wave-face { fill: #fff; stroke: #000; stroke-width: 1; stroke-linejoin: miter; }
+.choice.wave-card > .button {
+  background: transparent !important; border-color: transparent !important; box-shadow: none !important;
+}
+#choices > .choice.raised-card.wave-card::before,
+#choices > .choice.raised-card.wave-card::after { content: none; }
+.choice.wave-card.hold-tiled > .wave-surface { visibility: hidden; }
+.choice.wave-card.locked .wave-face { stroke: #999; }
+.choice.wave-card.locked .wave-side { fill: #999; }
+.choice.wave-card:is(.selected, .taken) .wave-face,
+.choice.wave-card:has(> .button:active:not([aria-disabled="true"]):not(:disabled)) .wave-face { fill: #000; stroke: #000; }
+.choice.wave-card:is(.selected, .taken) .wave-side,
+.choice.wave-card:has(> .button:active:not([aria-disabled="true"]):not(:disabled)) .wave-side { visibility: hidden; }
+.choice.wave-card.entered:not(.taken):not(.fade-out) > .wave-surface { animation: none; }
+.choice.wave-card.fade-out > .wave-surface { animation: fade-out .7s ease forwards; }
+.choice.wave-card.taken > .wave-surface { animation: card-taken var(--taken-fade, 650ms) linear 40ms both; }
+#phone:is(.paused, .cards-covered) .wave-surface { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .choice.wave-card > .wave-surface { animation: none !important; } }

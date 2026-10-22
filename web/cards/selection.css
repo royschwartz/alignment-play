@@ -1,0 +1,49 @@
+/* The historical studies keep their selected/inverted reference. Live
+   pointer-down never reverses the face or moves it before activation. */
+#phone .raised-card > .button:active:not([aria-disabled="true"]):not(:disabled) {
+  background:#fff; color:#000; transform:none;
+  box-shadow:2px 2px 0 #fff, 3px 3px 0 #000;
+}
+#phone #choices > .choice.raised-card:has(> .button:active:not([aria-disabled="true"]):not(:disabled)),
+#phone #choices > .choice.raised-card.soft-tint:is(.selected,.taken) {
+  --card-lift:0px; --card-depth:3px;
+}
+#phone #choices > .choice.raised-card > .button:active { box-shadow:none; }
+
+/* Fade the complete card as one image: face, lettering, need ink and attached
+   blades. This matches the study and avoids double-fading overlapping parts. */
+.raised-card.soft-tint.taken {
+  animation:card-taken var(--click-fade,400ms) var(--click-easing,cubic-bezier(.333333333333,1,.666666666667,1)) var(--click-delay,170ms) both !important;
+}
+.raised-card.soft-tint.taken > .button,
+.choice.raised-card.soft-tint.taken > .pain-blade-art,
+#choices > .choice.raised-card.soft-tint.taken::before,
+#choices > .choice.raised-card.soft-tint.taken::after {
+  animation:none !important; opacity:1;
+}
+.raised-card.soft-tint.selected.taken > .button,
+.choice.raised-card.soft-tint.taken > .button[disabled] {
+  background:#fff; color:#000; border-color:#000; transform:none;
+  box-shadow:2px 2px 0 #fff, 3px 3px 0 #000;
+}
+.choice.raised-card.soft-tint.taken > .button { box-shadow:1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000; }
+/* Opacity flattens CSS 3D descendants. Replace the perpendicular black walls
+   with the same stationary 3px edge used in the study before group fading,
+   so those walls cannot abruptly vanish on the first translucent frame. */
+#choices > .choice.raised-card.soft-tint.taken { transform:none; }
+#choices > .choice.raised-card.soft-tint.taken > .button { box-shadow:1px 1px 0 #000,2px 2px 0 #000,3px 3px 0 #000; }
+#choices > .choice.raised-card.soft-tint.taken::before,
+#choices > .choice.raised-card.soft-tint.taken::after { display:none; }
+.choice.raised-card.soft-tint.taken .need-spread { filter:none; }
+.choice.raised-card.soft-tint.taken .pain-blade { fill:#fff; stroke:#000; }
+.choice.raised-card.soft-tint.taken > .pain-blade-art { transform:none; }
+.raised-card.soft-tint.taken > .button::after {
+  content:""; position:absolute; inset:0; z-index:4; pointer-events:none;
+  background:#000;
+  animation:card-soft-tint var(--click-response,130ms) var(--click-easing,cubic-bezier(.333333333333,1,.666666666667,1)) both !important;
+}
+@keyframes card-soft-tint { from { opacity:0; } to { opacity:var(--click-tint,.06); } }
+/* Reduced motion keeps this stationary tint/fade, as in the approved study.
+   Pause stops both animations through the existing presentation clock. */
+#phone.paused .raised-card.soft-tint.taken,
+#phone.paused .raised-card.soft-tint.taken > .button::after { animation-play-state:paused !important; }

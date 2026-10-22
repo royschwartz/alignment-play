@@ -1,0 +1,752 @@
+@import './cards/pain-wave.css';
+@import './cards/pain-blades.css';
+@import './cards/forming-ink.css';
+@import './cards/selection.css';
+
+/* Alignment, Opus 5.5 version (October 11, 2026). Started from
+   game/web/style.css as it was that day; the middle section is new and the
+   log is gone. Template: A Dark Room (Roy, Oct 6):
+   Times New Roman, black on white, thin bordered buttons with grey countdown
+   fills, and everything fading in and out. One phone-shaped frame. */
+
+:root {
+  --ink: #000;
+  --paper: #fff;
+  --muted: #999;
+  --faint: #c8c8c8;
+  --fill: #ddd;
+  --w: 390px;
+  --h: 844px;
+  --fade: 1.4s;
+  --card-width: 148px;
+  --card-height: 76px;
+  --card-gap: 44px;
+  --card-top: 44px;
+  --choice-area-height: calc(var(--h) * .4 - 54px);
+  --symbol-line: 3px;
+  /* Card and control borders stay normalized. Symbols use a heavier line
+     following Roy's Oct 10 request for larger, bolder icons. */
+  --line: 2px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.35 "Times New Roman", Times, serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body { display: grid; place-items: center; overflow: hidden; }
+
+button { font: inherit; color: inherit; }
+
+/* The phone. Laid out at 390 × 844 and scaled to fit the window. */
+#frame {
+  position: relative;
+  width: min(100vw, calc(100svh * 390 / 844));
+  aspect-ratio: 390 / 844;
+}
+
+#phone {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: var(--w);
+  height: var(--h);
+  transform: scale(var(--scale, 1));
+  transform-origin: top left;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 22px 0;
+  overflow: hidden;
+  outline: 1px solid #ececec;
+  background: var(--paper);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#phone > #status, #phone > #now, #phone > #choices, #phone > #pause-bar {
+  transition: opacity 2.4s ease;
+}
+#phone[data-phase="intro"] > :not(.cover),
+#phone[data-phase="loading"] > :not(.cover) { opacity: 0; pointer-events: none; }
+
+/* ------------------------------------------------------------ status */
+
+#status {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ink);
+  flex-shrink: 0;
+}
+/* Trickles (Roy, Oct 19): one-bit water over the status bar, never over its
+   words or numbers (web/trickles.mjs). */
+#status > canvas.trickles { position: absolute; left: 0; top: 0; pointer-events: none; image-rendering: pixelated; }
+
+#attributes {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.attr { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 9px; min-width: 0; }
+/* The word can be clicked: it says its line in the descriptions (Roy, Oct 21, 416). */
+.attr > button.label { all: unset; cursor: pointer; }
+.attr > button.label:hover { text-decoration: underline; }
+.attr > button.label:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.attr .num {
+  font-weight: bold;
+  min-width: 2ch;
+  min-height: 1.35em;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+.attr.revealed .num { opacity: 1; }
+
+/* A need's ink blot shows on the attribute it's attached to, the same blot
+   as on its box (Roy, Oct 9: "uncertainty will have that expanding inkblot on
+   it"). The words turn white where the ink is under them. */
+.ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* On an attribute the blot reaches a little past the words, so its edge shows. */
+.attr .ink { inset: -7px -9px -5px; width: calc(100% + 18px); height: calc(100% + 12px); z-index: -1; }
+.attr.inked { background: var(--paper); }
+.attr.inked .label, .attr.inked .num { color: #fff; mix-blend-mode: difference; }
+
+#components { display: flex; flex-direction: column; gap: 6px; }
+#components:empty { display: none; }
+.component {
+  border: var(--line) solid var(--ink);
+  background: var(--paper);
+  padding: 3px 7px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  animation: fade-in 2.4s ease both;
+}
+.component:hover { text-decoration: underline; }
+
+/* ----------------------------------------------------- middle section */
+
+/* Roy, October 11: "the middle area is going to be expanded and will now
+   include descriptions on the right 2/3s of the page", with "location /
+   activity / (mood)" on the left. The log that was under it is gone: its
+   descriptions are on the right here, and its activity is on the left.
+   The section is a fixed length (Roy, the same day, of a screenshot with
+   four descriptions showing: "it should end after you do the dishes one by
+   one. that's how where the section ends, fixed length"): eleven lines. */
+#now {
+  flex: none;
+  height: calc(16px + 11 * 1.35em);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  column-gap: 16px;
+  padding: 16px 0 0;
+  border-bottom: 1px solid var(--ink);
+}
+#now-left { min-width: 0; }
+/* The date and time keep a set height, so a long month's name can wrap
+   without moving the lines under it (provisional: Roy's list for the left
+   side is location, activity, mood; the date and time were here before and
+   he hasn't said to remove them). */
+#clock { height: calc(3 * 1.35em + 8px); font-variant-numeric: tabular-nums; }
+#place, #activity, #mood { min-height: 1.35em; overflow-wrap: anywhere; }
+#activity { font-style: italic; }
+/* A change of place or activity fades in where it stands. Nothing moves. */
+#place.swap, #activity.swap { animation: fade-in .5s linear both; }
+/* The mood always keeps its space; only the word fades in and out. */
+#mood { opacity: 0; transition: opacity 1s ease; }
+#mood.on { opacity: 1; }
+
+/* The descriptions: newest at the top, fading toward the bottom by where
+   they are. Single-spaced within one, a set gap between two (provisional). */
+#now-right { position: relative; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+#stream {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(#000 0%, #000 45%, transparent 100%);
+  mask-image: linear-gradient(#000 0%, #000 45%, transparent 100%);
+}
+.line { margin: 0 0 14px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.line.new { animation: fade-in .5s linear both; }
+.line.italic { font-style: italic; }
+#locks, #event-lock-reason { font-size: 14px; line-height: 1.35; }
+#locks { padding-bottom: 10px; }
+#locks[hidden], #event-lock-reason[hidden] { display: none; }
+#event-lock-reason { position: absolute; top: 8px; left: 22px; right: 22px; text-align: left; }
+
+/* ----------------------------------------------------------- choices */
+/* A square near the bottom. Cards stay in place and fade in and out. */
+
+#choices {
+  position: relative;
+  width: calc(2 * var(--card-width) + var(--card-gap));
+  /* The room left under the fixed middle section; the four places sit in
+     the middle of it (provisional). */
+  flex: 1;
+  min-height: 0;
+  margin: 0 auto;
+  --card-top: calc((100% - 2 * var(--card-height) - var(--card-gap)) / 2);
+}
+
+/* Roy, Oct 11: equal complete cards in four fixed positions. Icons stay
+   inside the shared rectangle, so decorated cards are no taller. */
+.choice {
+  position: absolute;
+  left: calc(var(--column, 0) * (var(--card-width) + var(--card-gap)));
+  top: calc(var(--card-top) + var(--row, 0) * (var(--card-height) + var(--card-gap)));
+  width: var(--card-width);
+  height: var(--card-height);
+  font-size: 15px;
+}
+.answer { font-size: 15px; }
+/* Scars mark the surface beneath replacement cards, without owning a slot. */
+#choices > .choice { z-index: 1; }
+
+.button {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  width: 100%;
+  border: var(--line) solid var(--ink);
+  background: var(--paper);
+  padding: 8px 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 0;
+}
+.answer .button { padding: 6px 8px 7px; }
+.choice .button {
+  height: 100%;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+.choice .label { max-width: 100%; overflow-wrap: anywhere; }
+.choice .money { margin-top: 0; }
+.button:hover { text-decoration: underline; }
+.button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.button[disabled], .button.locked { color: var(--muted); border-color: var(--faint); cursor: default; text-decoration: none; }
+
+.choice .button { animation: fade-in .7s ease both; }
+.choice.entered:not(.taken):not(.fade-out) .button { animation: none; }
+/* An intertitle covers the same cards; it never restarts their entrance. */
+#phone.cards-covered #choices .choice:not(.taken):not(.fade-out) .button { animation-play-state: paused; }
+.choice { transition: opacity 1.2s linear; }
+.money { display: block; font-size: 13px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+
+/* Leaving: fade when no longer possible; invert and fade when taken. */
+.choice.fade-out .button { animation: fade-out 0.7s ease forwards; }
+.choice.taken .button, .answer.taken .button {
+  background: #000; color: #fff;
+  animation: card-taken var(--taken-fade, 650ms) linear 40ms both;
+}
+.answer { position: relative; display: inline-block; }
+
+/* Each kind of box looks its own way (Roy, Oct 9): a pain box is black with
+   the knife in the heart on its top edge; a thought box has the brain there
+   and its topic in uneven, still letters; a need is a regular box full of an ink
+   blot that spreads. The outlines of October 7 (a white line inside the
+   black, travelling dashes, an outline that expands and contracts) are gone.
+   A card trying one of the October 8 options (cards/looks.mjs) is drawn as
+   it was then (.classic) and takes its look from the option (.has-look). */
+.choice .button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+/* An option's artwork, under the words. */
+.button > .look-art {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.button > .label, .button > .money { position: relative; z-index: 1; }
+.choice.classic.thought .button { text-align: left; padding: 8px 12px 9px; }
+.choice.classic.thought .label > span { display: block; }
+
+/* Pain: "pain boxes will be black with inverted coloring". Answers that cost
+   pain look the same. */
+.choice.pain:not(.has-look) .button, .answer:not(.has-look) .button.pain {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.choice.pain:not(.has-look) .button[disabled] { color: var(--paper); border-color: var(--ink); }
+.answer:not(.has-look) .button.pain.locked {
+  background: #b9b9b9;
+  border-color: #b9b9b9;
+  color: var(--paper);
+}
+
+/* Framed icon placement for the earlier reference styles. Raised cards
+   below remove the frame and preserve the original artwork strokes. */
+/* Choice icons stay inside the common footprint; answers retain their badge. */
+.answer.symbolled { margin-top: 22px; }
+.choice.symbolled .button { padding: 4px 8px 4px 60px; }
+.answer.symbolled .button { padding-top: 26px; }
+.answer.symbolled .button { min-width: 84px; }
+.symbol {
+  position: absolute;
+  left: 14px;
+  top: -24px;
+  z-index: 2;
+  box-sizing: content-box;
+  width: var(--symbol-size, 32px);
+  height: var(--symbol-size, 32px);
+  padding: var(--symbol-line);
+  border: var(--symbol-line) solid var(--ink);
+  /* The paper stays inside the outer line, so no pale edge shows where the
+     symbol sits on a black box. */
+  background: var(--paper) padding-box;
+  pointer-events: none;
+}
+.choice .symbol { left: 8px; top: 50%; transform: translateY(-50%); }
+.answer .symbol { left: 8px; }
+.symbol canvas { display: block; width: 100%; height: 100%; }
+/* On a pain box the picture is on black: the knife in the heart, the heart
+   destroyed (Roy's black pictures, drawn white), and the brain turned white. */
+.pain .symbol canvas { background: #000; }
+.pain .symbol[data-symbol="brain"] canvas { filter: invert(1); }
+/* On a locked answer, which is grey, the symbol is grey and white, and still. */
+.button.pain.locked .symbol { filter: contrast(0.16) brightness(1.725); }
+
+/* A need: a regular box; the ink is under the label, which turns white where
+   the ink reaches it. */
+.choice.blotted .label, .choice.blotted .money { color: #fff; mix-blend-mode: difference; }
+.choice.blotted.held .label { color: #777; }
+
+/* A thought box's letters are spaced out, on one line like any others
+   (Roy, Oct 9: "make the thought text completely aligned"). The space
+   after the last letter of a line is made up on the left, so the words
+   stay centered. */
+.card-marker { white-space: nowrap; }
+.choice.need .button { overflow: hidden; }
+.need-spread { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; image-rendering: pixelated; }
+.choice.need .label, .choice.need .money { color: #fff; mix-blend-mode: difference; }
+.choice.need.selected .need-spread { filter: invert(1); }
+.choice.need .hold-side-layer .need-spread { display: none; }
+.choice.need .hold-side-layer .label, .choice.need .hold-side-layer .money { mix-blend-mode: normal; }
+/* Neglect consumes the words as the completed black card starts leaving. */
+.choice.need.neglected .label, .choice.need.neglected .money { visibility: hidden; }
+.choice.need.neglected > .button { border-color: #000; cursor: default; }
+
+@keyframes fade-out { to { opacity: 0; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* --------------------------------------------------------- pause bar */
+
+/* October 11: a white face with a simple 3 px raised edge. Depth is inside
+   the shared 148 × 76 footprint. Selection presses and inverts the face. */
+.choice.raised-card .button {
+  width: calc(100% - 3px); height: calc(100% - 3px);
+}
+.raised-card .button,
+.choice.raised-card.pain .button,
+.answer.raised-card .button.pain {
+  border: 1px solid #000; background: #fff; color: #000;
+  box-shadow: 2px 2px 0 #fff, 3px 3px 0 #000;
+  border-radius: 0;
+}
+/* Roy's selected solid-black edges, including the regular choice face. */
+.choice.raised-card .button,
+.choice.raised-card.pain .button {
+  box-shadow: 1px 1px 0 #000, 2px 2px 0 #000, 3px 3px 0 #000;
+}
+/* Equal side margins center the words between the actual ink and the
+   inside of the right border, excluding transparent sprite padding. */
+.raised-card.symbolled .button {
+  padding: 4px 8px 4px calc(4px + var(--symbol-ink-right, 38.18px) + 8px);
+}
+.answer.raised-card { margin: 0 3px 3px 0; }
+.answer.raised-card .button { min-height: 73px; min-width: 145px; }
+.raised-card .symbol {
+  position: absolute; width: 40px; height: 40px; left: 4px; top: 4px;
+  transform: none; border: 0; padding: 0;
+  background: transparent; box-sizing: border-box;
+}
+.raised-card .symbol canvas { background: transparent; filter: none; image-rendering: pixelated; }
+.raised-card .symbol[data-symbol="brain"] canvas { filter: none; }
+.raised-card .symbol[data-symbol="knife"] canvas { filter: invert(1); }
+.raised-card .symbol[data-symbol="destroyed"] canvas { filter: invert(1); }
+.choice.raised-card.selected .button,
+.answer.raised-card.selected .button,
+.choice.raised-card.taken .button,
+.raised-card .button:active:not([aria-disabled="true"]):not(:disabled) {
+  background: #000; color: #fff; border-color: #000;
+  box-shadow: none; transform: translate(3px, 3px);
+}
+.raised-card.selected .symbol,
+.choice.raised-card.taken .symbol,
+.raised-card .button:active:not([aria-disabled="true"]):not(:disabled) .symbol { filter: invert(1); }
+.choice.raised-card.taken .button, .answer.raised-card.taken .button {
+  animation: card-taken var(--taken-fade, 650ms) linear 40ms both;
+}
+.choice.raised-card.locked .button,
+.answer.raised-card .button.locked,
+.answer.raised-card:not(.has-look) .button.pain.locked {
+  background: #fff; color: #777; border-color: #aaa;
+  box-shadow: 2px 2px 0 #fff, 3px 3px 0 #aaa; cursor: default;
+}
+.raised-card.locked .symbol,
+.raised-card .button.locked .symbol { opacity: .55; filter: none; }
+/* Alternate squares lower 3px, exposing solid black sides. The original
+   button keeps its label, focus and hit area beneath the inert surface. */
+.choice.raised-card.held:not(.taken) > .button {
+  cursor: default;
+  text-decoration: none;
+}
+/* Hide thought/pain art throughout lowering and the return to the flat face.
+   Keep its space so the directly mapped lettering never shifts (Roy, 258). */
+.choice:is(.held, .hold-tiled):not(.taken):not(.fade-out) .symbol:is([data-symbol="brain"], [data-symbol="knife"]) {
+  visibility: hidden;
+}
+.choice.hold-tiled > .button { opacity: 0 !important; }
+.hold-tiles { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hold-checker { position: absolute; top: 0; left: 0; }
+.hold-steps, .hold-face { position: absolute; top: 0; left: 0; pointer-events: none; overflow: visible; }
+.choice.raised-card .hold-side-layer .symbol { filter: invert(1); }
+.choice.raised-card .hold-copy.button {
+  position: absolute; top: 0; left: 0;
+  margin: 0;
+  border-color: transparent;
+  background: transparent;
+  transform-origin: 0 0;
+  box-shadow: none !important;
+  animation: none !important;
+  opacity: 1 !important;
+  text-decoration: none;
+  pointer-events: none;
+}
+@keyframes card-taken { from { opacity: 1; } to { opacity: 0; } }
+
+/* Roy, October 12: keep the original straight, level card orientation.
+   Oblique depth leaves the face and its lettering exactly rectangular;
+   only height projects up/left, exposing the original lower/right edge. */
+#choices {
+  perspective: none;
+}
+#choices > .choice.raised-card {
+  --card-depth: 3px;
+  --card-face-width: calc(var(--card-width) - 3px);
+  --card-face-height: calc(var(--card-height) - 3px);
+  --card-lift: 0px;
+  transform-style: preserve-3d;
+  transform-origin: 50% 50%;
+  transform: matrix3d(1,0,0,0, 0,1,0,0, -1,-1,1,0, 0,0,0,1) translateZ(var(--card-lift));
+}
+/* Two actual perpendicular faces run from the top plane down into the
+   card, with the same square outline as its paper face. They are siblings
+   of the button so the need's isolated blending cannot flatten the depth. */
+#choices > .choice.raised-card::before,
+#choices > .choice.raised-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  background: #000;
+  backface-visibility: hidden;
+  animation: fade-in .7s ease both;
+}
+#choices > .choice.raised-card::before {
+  left: var(--card-face-width);
+  top: 0;
+  width: var(--card-depth);
+  height: var(--card-face-height);
+  transform-origin: left center;
+  transform: rotateY(90deg);
+}
+#choices > .choice.raised-card::after {
+  left: 0;
+  top: var(--card-face-height);
+  width: var(--card-face-width);
+  height: var(--card-depth);
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+}
+#choices > .choice.raised-card > .button {
+  width: var(--card-face-width);
+  height: var(--card-face-height);
+  box-shadow: none;
+  transform: none;
+}
+#choices > .choice.raised-card:is(.selected, .taken) {
+  --card-lift: -3px;
+  --card-depth: 0px;
+}
+#choices > .choice.raised-card:has(> .button:active:not([aria-disabled="true"]):not(:disabled)) {
+  --card-lift: -3px;
+  --card-depth: 0px;
+}
+#choices > .choice.raised-card.locked::before,
+#choices > .choice.raised-card.locked::after { background: #999; }
+#choices > .choice.raised-card.entered:not(.taken):not(.fade-out)::before,
+#choices > .choice.raised-card.entered:not(.taken):not(.fade-out)::after { animation: none; }
+#choices > .choice.raised-card.fade-out::before,
+#choices > .choice.raised-card.fade-out::after { animation: fade-out .7s ease forwards; }
+#choices > .choice.raised-card.taken::before,
+#choices > .choice.raised-card.taken::after {
+  animation: card-taken var(--taken-fade, 650ms) linear 40ms both;
+}
+/* Fainter as its last chance nears (cards/recede.mjs). Each face takes it,
+   multiplied with its own fades; opacity on the card would flatten it. */
+#choices > .choice.receding > :is(.button, .pain-blade-art, .hold-tiles),
+#choices > .choice.receding::before,
+#choices > .choice.receding::after { filter: opacity(var(--recede, 1)); }
+#phone.cards-covered #choices > .choice.raised-card:not(.taken):not(.fade-out)::before,
+#phone.cards-covered #choices > .choice.raised-card:not(.taken):not(.fade-out)::after,
+#phone.paused #choices > .choice.raised-card::before,
+#phone.paused #choices > .choice.raised-card::after { animation-play-state: paused; }
+
+#pause-bar {
+  position: relative;
+  flex-shrink: 0;
+  height: 54px;
+  margin: 0 -22px;
+  border-top: 1px solid var(--ink);
+}
+#pause {
+  all: unset;
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  cursor: pointer;
+}
+#pause:hover { text-decoration: underline; }
+#pause:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+/* The menu: a quiet control at the lower right of the pause bar, and its
+   panel just above it (Roy, Oct 7). */
+#menu {
+  all: unset;
+  position: absolute;
+  top: 0;
+  right: 22px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+}
+#menu:hover { text-decoration: underline; }
+#menu:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+/* "accelerate": the word, at the left of the pause bar, as the menu is at
+   its right (Roy, Oct 21, 409: "accelerate is no button, just something to
+   the left of pause"). It works while it's held down (412); held, it's in
+   full ink and underlined (provisional). A long press on a phone neither
+   selects it nor opens a menu. */
+#accelerate {
+  all: unset;
+  position: absolute;
+  top: 0;
+  left: 22px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: #555;
+  font-size: 14px;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+#accelerate:hover { text-decoration: underline; }
+#accelerate.on { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+#accelerate:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+#menu-panel {
+  position: absolute;
+  right: 12px;
+  bottom: 62px;
+  z-index: 25;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border: var(--line) solid var(--ink);
+  background: var(--paper);
+  animation: fade-in 0.3s ease both;
+}
+#menu-panel[hidden] { display: none; }
+#menu-panel .button { width: auto; min-width: 110px; }
+
+#phone.paused #status,
+#phone.paused #now { opacity: 0.35; transition: opacity 0.5s ease; }
+/* Cards stay readable while time is paused (Roy, Oct 12, 299). */
+#phone.paused .line.new, #phone.paused .swap { animation-play-state: paused; }
+#phone.paused #choices { pointer-events: none; }
+#phone.scar-study.paused #choices { pointer-events: auto; }
+#phone.paused .choice, #phone.paused .choice *, #phone.paused .choice *::before, #phone.paused .choice *::after { animation-play-state: paused; }
+
+/* ------------------------------------------------------------- covers */
+/* Events, the intro and the psyche cover the screen below the attributes. */
+
+.cover {
+  position: absolute;
+  inset: var(--cover-top, 0) 0 0 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 34px 60px;
+  background: var(--paper);
+  text-align: center;
+  animation: fade-in 0.9s ease both;
+}
+.cover[hidden] { display: none; }
+/* Every story cover returns to the same screen with one shared fade (259).
+   Attributes stay visible above the cover. Child entrances never restart. */
+#phone.intertitle-return > :is(#now, #choices, #pause-bar) {
+  animation: intertitle-return var(--fade) ease;
+}
+@keyframes intertitle-return { from { opacity: 0; } }
+#intro { --cover-top: 0px; }
+#event { cursor: pointer; }
+#event.answering, #psyche { cursor: default; }
+/* An event's answers are the main page's cards in its four places (Roy,
+   Oct 18; web/app.mjs `renderEventCards`). The line they answer stays on the
+   cover, which ends where the cards begin; the day's own cards and the pause
+   bar wait unseen, and come back with the screen when the event is over. */
+#event.answering {
+  bottom: auto;
+  height: calc(var(--choices-top, 60%) - var(--cover-top, 0px));
+  padding-bottom: 24px;
+}
+/* Every line of an event, intertitle or answered, is said in that same place,
+   between the attributes and where the cards begin (Roy, Oct 19, 403: "move
+   all intertitle text, at all times to here", "so it doesn't change while
+   events are moving between intertitles and choices"). An intertitle's cover
+   still reaches the bottom; its text is centered as if it ended at the cards.
+   The middle section's lower line is gone while an event plays. */
+#event:not(.answering) { padding-bottom: calc(var(--h) - var(--choices-top, 347px) + 24px); }
+#phone.in-event #now { border-bottom-color: transparent; }
+#phone.answering #choices > :not(.event-card) { visibility: hidden; }
+#phone.answering #pause-bar { visibility: hidden; }
+#phone.answering.paused #choices { pointer-events: auto; }
+
+.cover-text {
+  max-width: 310px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  opacity: 0;
+  transition: opacity 1.1s ease;
+}
+.cover-text.in { opacity: 1; }
+.cover-text.bold { font-weight: bold; }
+.cover-text.italic { font-style: italic; }
+.cover-text.title { letter-spacing: 0.04em; }
+.cover-text.left { text-align: left; }
+/* An important mood's word, under the last line of its introduction and set
+   to the right, in bold (Roy, Oct 18, 391; spec/sketches/roy-agitated-mood-introduced-2026-10-18.png). */
+.cover-mood { font-weight: bold; width: min(310px, 100%); text-align: right; padding-right: 12%; box-sizing: border-box; margin-top: 0.35em; }
+.cover-mood[hidden] { display: none; }
+
+.cover-answers {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px 12px;
+  margin-top: 30px;
+  max-width: 320px;
+}
+.cover-answers .button { width: auto; min-width: 64px; animation: fade-in 1.2s ease both; }
+.cover-answers:empty { display: none; }
+
+.cover-hint {
+  position: absolute;
+  bottom: 22px;
+  left: 0;
+  right: 0;
+  color: #aaa;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.cover-hint.in { opacity: 1; }
+
+/* Skip intro: a plain bordered button in the corner (Roy, Oct 7: "give me
+   a skip intro button"). */
+.quiet {
+  all: unset;
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  z-index: 1;
+  border: var(--line) solid var(--ink);
+  background: var(--paper);
+  padding: 5px 11px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.quiet:hover { text-decoration: underline; }
+.quiet:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+/* ------------------------------------------------------------- psyche */
+
+#psyche-list {
+  width: 100%;
+  max-width: 300px;
+  border: var(--line) solid var(--ink);
+  padding: 22px 20px 12px;
+  position: relative;
+  text-align: left;
+}
+.legend {
+  position: absolute;
+  top: -0.75em;
+  left: 12px;
+  padding: 0 6px;
+  background: var(--paper);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+}
+.psyche-row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; animation: fade-in 1.4s ease both; }
+.psyche-row span:last-child { color: #555; }
+#psyche-return { width: auto; margin-top: 26px; }
+
+@media (prefers-reduced-motion: reduce) {
+  #phone.intertitle-return > :is(#now, #choices, #pause-bar) { animation: none; }
+  .choice, .choice::before, .choice::after, .choice *, .choice *::before, .choice *::after,
+  .answer *, .answer *::before, .answer *::after { animation: none !important; }
+}
+
+/* The need stain (copied from game/web/cards/need-contours.css): one fixed
+   48-pixel one-bit print on the card and around the attached number. */
+.contour-holder { position: relative; isolation: isolate; }
+.contour-holder > .need-contour {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  color: #000;
+  z-index: -1;
+}
+.contour-number > .need-contour { inset: -9px -12px; width: calc(100% + 24px); height: calc(100% + 18px); }
+.contour-contained > .need-contour { inset: 0; width: 100%; height: 100%; }
+.attr .contour-number { align-self: center; min-width: 2ch; }
+.contour-number.contour-active { color: #fff; }
+.need-stain, .need-stain image { image-rendering: pixelated; }
